@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -12,15 +13,13 @@ using MediaBrowser.Controller.Library;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
-using System.ComponentModel.Composition;
 
 namespace GameBrowser
 {
     /// <summary>
     /// Class Plugin
     /// </summary>
-    [Export(typeof(IPlugin))]
-    public class Plugin : BasePlugin<PluginConfiguration>
+    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         public readonly SemaphoreSlim TgdbSemiphore = new SemaphoreSlim(5, 5);
         public readonly SemaphoreSlim EmuMoviesSemiphore = new SemaphoreSlim(5, 5);
@@ -40,7 +39,22 @@ namespace GameBrowser
             get { return "GameBrowser"; }
         }
 
-
+        public IEnumerable<PluginPageInfo> GetPages()
+        {
+            return new[]
+            {
+                new PluginPageInfo
+                {
+                    Name = "GameBrowser",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.configPage.html"
+                },
+                new PluginPageInfo
+                {
+                    Name = "GbMetaConfigurationPage",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.metaConfig.html"
+                }
+            };
+        }
 
         /// <summary>
         /// Gets the plugin's configuration

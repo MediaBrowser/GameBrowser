@@ -6,25 +6,22 @@ using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Logging;
-using ServiceStack;
+using MediaBrowser.Model.Services;
 
 namespace GameBrowser.Api
 {
     [Route("/GameBrowser/GamePlatforms", "GET")]
-    [Api(Description = "Get all the game platforms that the user has added")]
     public class GetConfiguredPlatforms
     {
            
     }
 
     [Route("/GameBrowser/Games/Dos", "GET")]
-    [Api(Description = "Get all the games for the Dos platform")]
     public class GetDosGames
     {
     }
 
     [Route("/GameBrowser/Games/Windows", "GET")]
-    [Api(Description = "Get all the games for the Windows platform")]
     public class GetWindowsGames
     {
     }
@@ -32,7 +29,7 @@ namespace GameBrowser.Api
     /// <summary>
     /// 
     /// </summary>
-    public class GameBrowserUriService : IRestfulService
+    public class GameBrowserUriService : IService
     {
         private readonly ILogger _logger;
         private readonly ILibraryManager _libraryManager;

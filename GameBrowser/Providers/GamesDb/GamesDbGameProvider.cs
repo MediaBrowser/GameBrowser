@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Linq;
-using CommonIO;
+using MediaBrowser.Model.IO;
 
 namespace GameBrowser.Providers.GamesDb
 {
@@ -157,7 +157,7 @@ namespace GameBrowser.Providers.GamesDb
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
 
-                using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileMode.Create, FileAccess.Write, FileShare.Read, true))
+                using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileOpenMode.Create, FileAccessMode.Write, FileShareMode.Read, true))
                 {
                     await stream.CopyToAsync(fileStream).ConfigureAwait(false);
                 }
