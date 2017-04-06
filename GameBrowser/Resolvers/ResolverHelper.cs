@@ -141,7 +141,7 @@ namespace GameBrowser.Resolvers
                     return "NeoGeo";
 
                 case "Nintendo 64":
-                    return "Nintendo64";
+                    return "Nintendo 64";
 
                 case "Nintendo DS":
                     return "NintendoDS";
@@ -158,11 +158,11 @@ namespace GameBrowser.Resolvers
                 case "Game Boy Color":
                     return "NintendoGameBoyColor";
 
-                case "Gamecube":
+                 case "Gamecube":
                     return "NintendoGameCube";
 
                 case "Super Nintendo":
-                    return "SuperNintendo";
+                    return "Super Nintendo";
 
                 case "Virtual Boy":
                     return "VirtualBoy";
@@ -192,10 +192,10 @@ namespace GameBrowser.Resolvers
                     return "SegaGameGear";
 
                 case "Sega Genesis":
-                    return "SegaGenesis";
+                    return "Sega Genesis";
 
                 case "Sega Master System":
-                    return "SegaMasterSystem";
+                    return "Sega Master System";
 
                 case "Sega Mega Drive":
                     return "SegaMegaDrive";
@@ -204,7 +204,7 @@ namespace GameBrowser.Resolvers
                     return "SegaSaturn";
 
                 case "Sony Playstation":
-                    return "SonyPlaystation";
+                    return "Sony Playstation";
 
                 case "PS2":
                     return "SonyPlaystation2";
