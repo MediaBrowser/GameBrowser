@@ -251,7 +251,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".bin", ".img" };
 
                 case "Sony Playstation":
-                    return new[] { ".iso", ".bin", ".img", ".ps1" };
+                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp" };
 
                 case "PS2":
                     return new[] { ".iso", ".bin" };
