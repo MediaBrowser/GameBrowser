@@ -1,5 +1,4 @@
 ﻿using GameBrowser.Library.Utils;
-using MediaBrowser.Common.IO;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Resolvers;
@@ -76,7 +75,6 @@ namespace GameBrowser.Resolvers
                         Name = MameUtils.GetFullNameFromPath(args.Path, _logger),
                         Path = args.Path,
                         GameSystem = "Arcade",
-                        DisplayMediaType = "Arcade",
                         IsInMixedFolder = true
                     };
                     return game;
@@ -119,8 +117,6 @@ namespace GameBrowser.Resolvers
             game.IsPlaceHolder =
                 string.Equals(game.GameSystem, "windows", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(game.GameSystem, "dos", StringComparison.OrdinalIgnoreCase);
-
-            game.DisplayMediaType = ResolverHelper.GetDisplayMediaTypeFromPlatform(consoleType);
 
             if (gameFiles.Count > 1)
             {

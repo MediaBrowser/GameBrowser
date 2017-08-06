@@ -1,5 +1,4 @@
 ﻿using GameBrowser.Resolvers;
-using MediaBrowser.Common.IO;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Providers;

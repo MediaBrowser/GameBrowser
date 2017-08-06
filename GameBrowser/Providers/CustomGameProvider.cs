@@ -1,5 +1,4 @@
 ﻿using GameBrowser.Resolvers;
-using MediaBrowser.Common.IO;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Providers;
@@ -26,17 +25,6 @@ namespace GameBrowser.Providers
             var result = _cachedResult;
 
             string platform = null;
-
-            if (string.IsNullOrEmpty(item.DisplayMediaType))
-            {
-                platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, item.Path);
-
-                if (!string.IsNullOrEmpty(platform))
-                {
-                    item.DisplayMediaType = ResolverHelper.GetDisplayMediaTypeFromPlatform(platform);
-                    result = _cachedResultWithUpdate;
-                }
-            }
 
             if (string.IsNullOrEmpty(item.GameSystem))
             {
