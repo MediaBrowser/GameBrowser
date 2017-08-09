@@ -120,7 +120,7 @@ namespace GameBrowser.Resolvers
 
             if (gameFiles.Count > 1)
             {
-                game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToList();
+                game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
                 game.IsMultiPart = true;
             }
 
