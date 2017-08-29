@@ -7,8 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml;
+using System.Net;
 
 namespace GameBrowser.Providers.EmuMovies
 {
@@ -82,7 +82,7 @@ namespace GameBrowser.Providers.EmuMovies
 
             if (sessionId == null) return list;
 
-            var url = string.Format(EmuMoviesUrls.Search, HttpUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
+            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
 
             using (var stream = await _httpClient.Get(url, Plugin.Instance.EmuMoviesSemiphore, cancellationToken).ConfigureAwait(false))
             {
