@@ -56,6 +56,12 @@ namespace GameBrowser
             };
         }
 
+        private Guid _id = new Guid("4C2FDA1C-FD5E-433A-AD2B-718E0B73E9A9");
+        public override Guid Id
+        {
+            get { return _id; }
+        }
+
         /// <summary>
         /// Gets the plugin's configuration
         /// </summary>
