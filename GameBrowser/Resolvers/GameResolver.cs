@@ -114,10 +114,8 @@ namespace GameBrowser.Resolvers
                 GameSystem = ResolverHelper.GetGameSystemFromPlatform(consoleType)
             };
 
-            game.IsPlaceHolder =
-                string.Equals(game.GameSystem, "windows", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(game.GameSystem, "dos", StringComparison.OrdinalIgnoreCase);
-
+            game.IsPlaceHolder = false;
+                
             if (gameFiles.Count > 1)
             {
                 game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
