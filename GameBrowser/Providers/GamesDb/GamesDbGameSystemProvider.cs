@@ -103,13 +103,23 @@ namespace GameBrowser.Providers.GamesDb
 
             var xmlPath = GetCacheFilePath(gamesDbId);
 
-            using (var stream = await _httpClient.Get(url, Plugin.Instance.TgdbSemiphore, cancellationToken).ConfigureAwait(false))
+            using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
 
-                using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileOpenMode.Create, FileAccessMode.Write, FileShareMode.Read, true))
+                Url = url,
+                CancellationToken = cancellationToken,
+                ResourcePool = Plugin.Instance.TgdbSemiphore
+
+            }, "GET").ConfigureAwait(false))
+            {
+                using (var stream = response.Content)
                 {
-                    await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
+
+                    using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileOpenMode.Create, FileAccessMode.Write, FileShareMode.Read, true))
+                    {
+                        await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    }
                 }
             }
         }

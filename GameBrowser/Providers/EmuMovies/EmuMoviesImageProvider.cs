@@ -84,36 +84,46 @@ namespace GameBrowser.Providers.EmuMovies
 
             var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
 
-            using (var stream = await _httpClient.Get(url, Plugin.Instance.EmuMoviesSemiphore, cancellationToken).ConfigureAwait(false))
+            using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
-                var doc = new XmlDocument();
-                doc.Load(stream);
 
-                if (doc.HasChildNodes)
+                Url = url,
+                CancellationToken = cancellationToken,
+                ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+
+            }, "GET").ConfigureAwait(false))
+            {
+                using (var stream = response.Content)
                 {
-                    var nodes = doc.SelectNodes("Results/Result");
+                    var doc = new XmlDocument();
+                    doc.Load(stream);
 
-                    if (nodes != null)
+                    if (doc.HasChildNodes)
                     {
-                        foreach (XmlNode node in nodes)
-                        {
-                            if (node != null && node.Attributes != null)
-                            {
-                                var urlAttribute = node.Attributes["URL"];
+                        var nodes = doc.SelectNodes("Results/Result");
 
-                                if (urlAttribute != null && !string.IsNullOrEmpty(urlAttribute.Value))
+                        if (nodes != null)
+                        {
+                            foreach (XmlNode node in nodes)
+                            {
+                                if (node != null && node.Attributes != null)
                                 {
-                                    list.Add(new RemoteImageInfo
+                                    var urlAttribute = node.Attributes["URL"];
+
+                                    if (urlAttribute != null && !string.IsNullOrEmpty(urlAttribute.Value))
                                     {
-                                        ProviderName = Name,
-                                        Type = type,
-                                        Url = urlAttribute.Value
-                                    });
+                                        list.Add(new RemoteImageInfo
+                                        {
+                                            ProviderName = Name,
+                                            Type = type,
+                                            Url = urlAttribute.Value
+                                        });
+                                    }
                                 }
                             }
                         }
-                    }
 
+                    }
                 }
             }
 

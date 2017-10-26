@@ -152,13 +152,23 @@ namespace GameBrowser.Providers.GamesDb
 
             var xmlPath = GetCacheFilePath(gamesDbId);
 
-            using (var stream = await _httpClient.Get(url, Plugin.Instance.TgdbSemiphore, cancellationToken).ConfigureAwait(false))
+            using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
 
-                using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileOpenMode.Create, FileAccessMode.Write, FileShareMode.Read, true))
+                Url = url,
+                CancellationToken = cancellationToken,
+                ResourcePool = Plugin.Instance.TgdbSemiphore
+
+            }, "GET").ConfigureAwait(false))
+            {
+                using (var stream = response.Content)
                 {
-                    await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
+
+                    using (var fileStream = _fileSystem.GetFileStream(xmlPath, FileOpenMode.Create, FileAccessMode.Write, FileShareMode.Read, true))
+                    {
+                        await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -245,7 +255,7 @@ namespace GameBrowser.Providers.GamesDb
                     workingName = name;
             }
 
-            return await AttemptFindGames(workingName, year, platform, matchExactName).ConfigureAwait(false);
+            return await AttemptFindGames(workingName, year, platform, matchExactName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -256,67 +266,79 @@ namespace GameBrowser.Providers.GamesDb
         /// <param name="platform">The platform.</param>
         /// <param name="exactName">if set to <c>true</c> [exact name].</param>
         /// <returns>Task{IEnumerable{RemoteSearchResult}}.</returns>
-        private async Task<IEnumerable<RemoteSearchResult>> AttemptFindGames(string name, int? year, string platform, bool exactName)
+        private async Task<List<RemoteSearchResult>> AttemptFindGames(string name, int? year, string platform, bool exactName, CancellationToken cancellationToken)
         {
             var url = string.IsNullOrEmpty(platform) ? string.Format(TgdbUrls.GetGames, UrlEncode(name)) : string.Format(TgdbUrls.GetGamesByPlatform, UrlEncode(name), platform);
 
-            var stream = await _httpClient.Get(url, Plugin.Instance.TgdbSemiphore, CancellationToken.None);
-
-            var doc = new XmlDocument();
-
-            doc.Load(stream);
-
-            var nodes = doc.SelectNodes("//Game");
-
-            if (nodes == null)
+            using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
-                return new List<RemoteSearchResult>();
-            }
 
-            var comparableName = GetComparableName(name);
+                Url = url,
+                CancellationToken = cancellationToken,
+                ResourcePool = Plugin.Instance.TgdbSemiphore
 
-            var returnList = nodes.Cast<XmlNode>()
-                .Select(GetSearchResult)
-                .Where(i =>
+            }, "GET").ConfigureAwait(false))
+            {
+                using (var stream = response.Content)
                 {
-                    if (i != null)
-                    {
-                        // If a year was supplied enforce it
-                        if (year.HasValue && i.ProductionYear.HasValue)
-                        {
-                            return Math.Abs(year.Value - i.ProductionYear.Value) <= 1;
-                        }
+                    var doc = new XmlDocument();
 
-                        return true;
+                    doc.Load(stream);
+
+                    var nodes = doc.SelectNodes("//Game");
+
+                    if (nodes == null)
+                    {
+                        return new List<RemoteSearchResult>();
                     }
 
-                    return false;
-                })
-                .ToList();
+                    var comparableName = GetComparableName(name);
 
-            if (exactName)
-            {
-                returnList = returnList.Where(i => string.Equals(i.Name, comparableName, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            var index = 0;
-            var resultTuples = returnList.Select(result => new Tuple<RemoteSearchResult, int>(result, index++)).ToList();
-
-            return resultTuples.OrderBy(i => string.Equals(i.Item1.Name, comparableName, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
-                    .ThenBy(i =>
-                    {
-                        if (year.HasValue)
+                    var returnList = nodes.Cast<XmlNode>()
+                        .Select(GetSearchResult)
+                        .Where(i =>
                         {
-                            if (i.Item1.ProductionYear.HasValue)
+                            if (i != null)
                             {
-                                return Math.Abs(year.Value - i.Item1.ProductionYear.Value);
-                            }
-                        }
+                                // If a year was supplied enforce it
+                                if (year.HasValue && i.ProductionYear.HasValue)
+                                {
+                                    return Math.Abs(year.Value - i.ProductionYear.Value) <= 1;
+                                }
 
-                        return 0;
-                    })
-                    .ThenBy(i => i.Item2)
-                    .Select(i => i.Item1);
+                                return true;
+                            }
+
+                            return false;
+                        })
+                        .ToList();
+
+                    if (exactName)
+                    {
+                        returnList = returnList.Where(i => string.Equals(i.Name, comparableName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    }
+
+                    var index = 0;
+                    var resultTuples = returnList.Select(result => new Tuple<RemoteSearchResult, int>(result, index++)).ToList();
+
+                    return resultTuples.OrderBy(i => string.Equals(i.Item1.Name, comparableName, StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+                            .ThenBy(i =>
+                            {
+                                if (year.HasValue)
+                                {
+                                    if (i.Item1.ProductionYear.HasValue)
+                                    {
+                                        return Math.Abs(year.Value - i.Item1.ProductionYear.Value);
+                                    }
+                                }
+
+                                return 0;
+                            })
+                            .ThenBy(i => i.Item2)
+                            .Select(i => i.Item1)
+                        .ToList();
+                }
+            }
         }
 
         private RemoteSearchResult GetSearchResult(XmlNode node)
@@ -728,7 +750,7 @@ namespace GameBrowser.Providers.GamesDb
 
                 case "Virtual Boy":
                     tgdbPlatformString = "Nintendo Virtual Boy";
-                    
+
                     break;
 
                 case "Nintendo Wii":
@@ -740,7 +762,7 @@ namespace GameBrowser.Providers.GamesDb
                     tgdbPlatformString = "Nintendo Wii U";
 
                     break;
-                    
+
                 case "DOS":
                     tgdbPlatformString = "PC";
 

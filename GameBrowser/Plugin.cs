@@ -167,26 +167,35 @@ namespace GameBrowser
         /// <returns>Task{System.String}.</returns>
         private async Task<string> GetEmuMoviesTokenInternal(CancellationToken cancellationToken)
         {
-            
             var url = String.Format(EmuMoviesUrls.Login, Instance.Configuration.EmuMoviesUsername, Instance.Configuration.EmuMoviesPassword, EmuMoviesApiKey);
 
             try
             {
-                using (var stream = await _httpClient.Get(url, Instance.EmuMoviesSemiphore, cancellationToken).ConfigureAwait(false))
+                using (var response = await _httpClient.SendAsync(new HttpRequestOptions
                 {
-                    var doc = new XmlDocument();
-                    doc.Load(stream);
 
-                    if (doc.HasChildNodes)
+                    Url = url,
+                    CancellationToken = cancellationToken,
+                    ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+
+                }, "GET").ConfigureAwait(false))
+                {
+                    using (var stream = response.Content)
                     {
-                        var resultNode = doc.SelectSingleNode("Results/Result");
+                        var doc = new XmlDocument();
+                        doc.Load(stream);
 
-                        if (resultNode != null && resultNode.Attributes != null)
+                        if (doc.HasChildNodes)
                         {
-                            var sessionId = resultNode.Attributes["Session"].Value;
+                            var resultNode = doc.SelectSingleNode("Results/Result");
 
-                            if (sessionId != null)
-                                return sessionId;
+                            if (resultNode != null && resultNode.Attributes != null)
+                            {
+                                var sessionId = resultNode.Attributes["Session"].Value;
+
+                                if (sessionId != null)
+                                    return sessionId;
+                            }
                         }
                     }
                 }
