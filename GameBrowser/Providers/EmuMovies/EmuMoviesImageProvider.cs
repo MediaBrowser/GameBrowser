@@ -21,7 +21,7 @@ namespace GameBrowser.Providers.EmuMovies
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<RemoteImageInfo>> GetImages(IHasMetadata item, CancellationToken cancellationToken)
+        public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
         {
             var list = new List<RemoteImageInfo>();
 
@@ -47,7 +47,7 @@ namespace GameBrowser.Providers.EmuMovies
             });
         }
 
-        public Task<IEnumerable<RemoteImageInfo>> GetImages(IHasMetadata item, ImageType imageType, CancellationToken cancellationToken)
+        public Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, ImageType imageType, CancellationToken cancellationToken)
         {
             var game = (Game)item;
 
@@ -344,7 +344,7 @@ namespace GameBrowser.Providers.EmuMovies
 
         }
 
-        public IEnumerable<ImageType> GetSupportedImages(IHasMetadata item)
+        public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
         {
             return new[] { ImageType.Box, ImageType.Disc, ImageType.Screenshot, ImageType.Menu };
         }
@@ -354,7 +354,7 @@ namespace GameBrowser.Providers.EmuMovies
             get { return "Emu Movies"; }
         }
 
-        public bool Supports(IHasMetadata item)
+        public bool Supports(BaseItem item)
         {
             return item is Game;
         }

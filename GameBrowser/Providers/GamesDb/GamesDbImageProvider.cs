@@ -22,12 +22,12 @@ namespace GameBrowser.Providers.GamesDb
             _httpClient = httpClient;
         }
 
-        public bool Supports(IHasMetadata item)
+        public bool Supports(BaseItem item)
         {
             return item is Game || item is GameSystem;
         }
 
-        public async Task<IEnumerable<RemoteImageInfo>> GetImages(IHasMetadata item, CancellationToken cancellationToken)
+        public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
         {
             var list = new List<RemoteImageInfo>();
 
@@ -49,7 +49,7 @@ namespace GameBrowser.Providers.GamesDb
             return list;
         }
 
-        private async Task<string> GetXmlPath(IHasMetadata item, CancellationToken cancellationToken)
+        private async Task<string> GetXmlPath(BaseItem item, CancellationToken cancellationToken)
         {
             var id = item.GetProviderId(GamesDbExternalId.KeyName);
 
@@ -253,7 +253,7 @@ namespace GameBrowser.Providers.GamesDb
             });
         }
 
-        public IEnumerable<ImageType> GetSupportedImages(IHasMetadata item)
+        public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
         {
             if (item is Game)
             {
