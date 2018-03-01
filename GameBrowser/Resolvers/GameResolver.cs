@@ -134,139 +134,139 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".cue" };
 
                 case "Amiga":
-                    return new[] { ".iso", ".adf" };
+                    return new[] { ".iso", ".adf", ".dms", ".exe", ".adz", ".rp9" };
 
                 case "Arcade":
                     return new[] { ".zip" };
 
                 case "Atari 2600":
-                    return new[] { ".bin", ".a26" };
+                    return new[] { ".bin", ".a26", ".gz", ".rom", ".zip", ".7z" };
 
                 case "Atari 5200":
-                    return new[] { ".bin", ".a52" };
+                    return new[] { ".bin", ".a52", ".bas", ".car", ".cas", ".xex", ".atr", ".xfd", ".dcm", ".gz", ".zip" };
 
                 case "Atari 7800":
-                    return new[] { ".a78" };
+                    return new[] { ".a78", ".bin", ".7z", ".zip" };
 
                 case "Atari XE":
                     return new[] { ".rom" };
 
                 case "Atari Jaguar":
-                    return new[] { ".j64", ".zip" };
+                    return new[] { ".j64", ".jag", ".rom", ".abs", ".cof", ".bin", ".prg", ".zip" };
 
                 case "Atari Jaguar CD": // still need to verify
                     return new[] { ".iso" };
 
                 case "Colecovision":
-                    return new[] { ".col", ".rom" };
+                    return new[] { ".col", ".rom", ".bin", ".zip" };
 
                 case "Commodore 64":
-                    return new[] { ".d64", ".g64", ".prg", ".tap", ".t64" };
+                    return new[] { ".d64", ".g64", ".prg", ".tap", ".t64", ".crt" };
 
                 case "Commodore Vic-20":
                     return new[] { ".prg" };
 
                 case "Intellivision":
-                    return new[] { ".int", ".rom" };
+                    return new[] { ".int", ".rom", ".bin" };
 
                 case "Xbox":
                     return new[] { ".disc", ".iso" };
 
                 case "Xbox 360":
-                    return new[] { ".disc" };
+                    return new[] { ".disc", ".iso" };
 
                 case "Xbox One":
-                    return new[] { ".disc" };
+                    return new[] { ".disc", ".iso" };
 
                 case "Neo Geo":
-                    return new[] { ".zip", ".iso" };
+                    return new[] { ".zip", ".iso", ".7z" };
 
                 case "Nintendo 64":
-                    return new[] { ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64", ".zip" };
+                    return new[] { ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64", ".zip", ".u1", ".bin", ".ndd" };
 
                 case "Nintendo DS":
-                    return new[] { ".nds", ".zip" };
+                    return new[] { ".nds", ".zip", ".bin" };
 
                 case "Nintendo":
-                    return new[] { ".nes", ".zip" };
+                    return new[] { ".nes", ".zip", ".fds", ".fig", ".mgd", ".sfc", ".smc", ".swc", ".7z", ".bin", ".rom", ".unif", ".unf" };
 
                 case "Game Boy":
-                    return new[] { ".gb", ".zip" };
+                    return new[] { ".gb", ".bin", ".rom", ".7z", ".zip" };
 
                 case "Game Boy Advance":
-                    return new[] { ".gba", ".zip" };
+                    return new[] { ".gba", ".agb", ".zip", ".7z" };
 
                 case "Game Boy Color":
-                    return new[] { ".gbc", ".zip" };
+                    return new[] { ".gbc", ".bin", ".rom", ".dmg", ".sgb", ".cgb", ".zip", ".7z" };
 
                 case "Gamecube":
                     return new[] { ".iso", ".bin", ".img", ".gcm", ".gcz" };
 
                 case "Super Nintendo":
-                    return new[] { ".smc", ".zip", ".fam", ".rom", ".sfc", ".fig" };
+                    return new[] { ".smc", ".zip", ".fam", ".rom", ".sfc", ".fig", ".swc", ".7z", ".bin", ".mgd", ".bs", ".st", ".bml", ".bsx" };
 
                 case "Virtual Boy":
-                    return new[] { ".vb" };
+                    return new[] { ".vb", ".vboy", ".bin", ".7z", ".zip" };
 
                 case "Nintendo Wii":
                     return new[] { ".iso", ".dol", ".ciso", ".wbfs", ".wad", ".gcz" };
 
                 case "Nintendo Wii U":
-                    return new[] { ".disc", ".wud" };
+                    return new[] { ".disc", ".wud", ".wux", ".iso", ".wad", ".rpx" };
 
                 case "DOS":
-                    return new[] { ".gbdos", ".disc" };
+                    return new[] { ".gbdos", ".disc", ".exe", ".com", ".bat" };
 
                 case "Windows":
                     return new[] { ".gbwin", ".disc" };
 
                 case "Sega 32X":
-                    return new[] { ".iso", ".bin", ".img", ".zip", ".32x" };
+                    return new[] { ".iso", ".bin", ".img", ".zip", ".32x", ".7z", ".md", ".smd" };
 
                 case "Sega CD":
                     return new[] { ".iso", ".bin", ".img" };
 
                 case "Dreamcast":
-                    return new[] { ".chd", ".gdi", ".cdi" };
+                    return new[] { ".chd", ".gdi", ".cdi", ".cue" };
 
                 case "Game Gear":
-                    return new[] { ".gg", ".zip" };
+                    return new[] { ".gg", ".zip", ".sms", ".bin", ".7z" };
 
                 case "Sega Genesis":
-                    return new[] { ".smd", ".bin", ".gen", ".zip", ".md" };
+                    return new[] { ".smd", ".bin", ".gen", ".zip", ".md", ".sg", ".sc", ".7z" };
 
                 case "Sega Master System":
-                    return new[] { ".sms", ".sg", ".sc", ".zip" };
+                    return new[] { ".sms", ".sg", ".sc", ".bin", ".rom", ".zip", ".7z" };
 
                 case "Sega Mega Drive":
-                    return new[] { ".smd", ".zip", ".md" };
+                    return new[] { ".smd", ".bin", ".gen", ".zip", ".md", ".sg", ".sc", ".7z" };
 
                 case "Sega Saturn":
-                    return new[] { ".iso", ".bin", ".img" };
+                    return new[] { ".iso", ".bin", ".img", ".cue", ".mdf", ".chd", ".ccd", ".toc" };
 
                 case "Sony Playstation":
-                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp" };
+                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp", ".cbn", ".mdf", ".pbp", ".toc", ".z", ".znx" };
 
                 case "PS2":
-                    return new[] { ".iso", ".bin" };
+                    return new[] { ".iso", ".bin", ".img", ".mdf", ".z", ".z2", ".bz2", ".dump", ".cso", ".ima", ".gz" };
 
                 case "PS3":
-                    return new[] { ".disc" };
+                    return new[] { ".disc", ".iso" };
 
                 case "PS4":
-                    return new[] { ".disc" };
+                    return new[] { ".disc", ".iso" };
 
                 case "PSP":
-                    return new[] { ".iso", ".cso" };
+                    return new[] { ".iso", ".cso", ".pbp", ".elf", ".prx" };
 
                 case "TurboGrafx 16":
-                    return new[] { ".pce", ".zip" };
+                    return new[] { ".pce", ".sgx", ".cue", ".ccd", ".chd", ".zip", ".7z" };
 
                 case "TurboGrafx CD":
                     return new[] { ".bin", ".iso" };
 
                 case "ZX Spectrum":
-                    return new[] { ".z80", ".tap", ".tzx" };
+                    return new[] { ".sna", ".szx", ".z80", ".tap", ".tzx", ".gz", ".udi", ".mgt", ".img", ".trd", ".scl", ".dsk" };
 
                 default:
                     return new string[] { };
