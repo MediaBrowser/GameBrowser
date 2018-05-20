@@ -53,14 +53,26 @@ namespace GameBrowser.Providers.EmuMovies
 
             switch (imageType)
             {
-                case ImageType.Box:
+                case ImageType.Backdrop:
                     return FetchImages(game, EmuMoviesMediaTypes.Cabinet, imageType, cancellationToken);
-                case ImageType.Screenshot:
-                    return FetchImages(game, EmuMoviesMediaTypes.Snap, imageType, cancellationToken);
+                case ImageType.Banner:
+                    return FetchImages(game, EmuMoviesMediaTypes.Banner, imageType, cancellationToken);
+                case ImageType.Primary:
+                case ImageType.Box:
+                    return FetchImages(game, EmuMoviesMediaTypes.Box, imageType, cancellationToken);
+                case ImageType.BoxRear:
+                    return FetchImages(game, EmuMoviesMediaTypes.BoxBack, imageType, cancellationToken);
                 case ImageType.Disc:
                     return FetchImages(game, EmuMoviesMediaTypes.Cart, imageType, cancellationToken);
                 case ImageType.Menu:
                     return FetchImages(game, EmuMoviesMediaTypes.Title, imageType, cancellationToken);
+                case ImageType.Screenshot:
+                    return FetchImages(game, EmuMoviesMediaTypes.Snap, imageType, cancellationToken);
+
+                case ImageType.Art:
+                case ImageType.Logo:
+                case ImageType.Thumb:
+                case ImageType.Chapter:
                 default:
                     throw new ArgumentException("Unrecognized image type");
             }
@@ -351,7 +363,7 @@ namespace GameBrowser.Providers.EmuMovies
 
         public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
         {
-            return new[] { ImageType.Box, ImageType.Disc, ImageType.Screenshot, ImageType.Menu };
+            return new[] { ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Box, ImageType.BoxRear, ImageType.Disc, ImageType.Menu, ImageType.Screenshot };
         }
 
         public string Name
