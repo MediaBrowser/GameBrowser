@@ -623,7 +623,7 @@ namespace GameBrowser.Providers.GamesDb
 
             switch (gameSystem)
             {
-                case "3DO":
+                case "Panasonic3DO":
                     tgdbPlatformString = "3DO";
 
                     break;
@@ -638,32 +638,32 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
-                case "Atari 2600":
+                case "Atari2600":
                     tgdbPlatformString = "Atari 2600";
 
                     break;
 
-                case "Atari 5200":
+                case "Atari5200":
                     tgdbPlatformString = "Atari 5200";
 
                     break;
 
-                case "Atari 7800":
+                case "Atari7800":
                     tgdbPlatformString = "Atari 7800";
 
                     break;
 
-                case "Atari XE":
+                case "AtariXE":
                     tgdbPlatformString = "Atari XE";
 
                     break;
 
-                case "Atari Jaguar":
+                case "AtariJaguar":
                     tgdbPlatformString = "Atari Jaguar";
 
                     break;
 
-                case "Atari Jaguar CD":
+                case "AtariJaguarCD":
                     tgdbPlatformString = "Atari Jaguar CD";
 
                     break;
@@ -673,12 +673,12 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
-                case "Commodore 64":
+                case "Commodore64":
                     tgdbPlatformString = "Commodore 64";
 
                     break;
 
-                case "Commodore Vic-20":
+                case "CommodoreVic20":
                     tgdbPlatformString = "Commodore Vic-20";
 
                     break;
@@ -688,32 +688,31 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
-                case "Xbox":
+                case "MicrosoftXBox":
                     tgdbPlatformString = "Microsoft Xbox";
 
                     break;
 
-                case "Xbox 360":
+                case "MicrosoftXBox360":
                     tgdbPlatformString = "Microsoft Xbox 360";
 
                     break;
 
-                case "Xbox One":
+                case "MicrosoftXBoxOne":
                     tgdbPlatformString = "Microsoft Xbox One";
 
                     break;
 
-                case "Neo Geo":
+                case "NeoGeo":
                     tgdbPlatformString = "NeoGeo";
 
                     break;
 
-                case "Nintendo 64":
+                case "Nintendo64":
                     tgdbPlatformString = "Nintendo 64";
-
                     break;
 
-                case "Nintendo DS":
+                case "NintendoDS":
                     tgdbPlatformString = "Nintendo DS";
 
                     break;
@@ -723,42 +722,42 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
-                case "Game Boy":
+                case "NintendoGameBoy":
                     tgdbPlatformString = "Nintendo Game Boy";
 
                     break;
 
-                case "Game Boy Advance":
+                case "NintendoGameBoyAdvance":
                     tgdbPlatformString = "Nintendo Game Boy Advance";
 
                     break;
 
-                case "Game Boy Color":
+                case "NintendoGameBoyColor":
                     tgdbPlatformString = "Nintendo Game Boy Color";
 
                     break;
 
-                case "Gamecube":
+                case "NintendoGameCube":
                     tgdbPlatformString = "Nintendo GameCube";
 
                     break;
 
-                case "Super Nintendo":
+                case "SuperNintendo":
                     tgdbPlatformString = "Super Nintendo (SNES)";
 
                     break;
 
-                case "Virtual Boy":
+                case "VirtualBoy":
                     tgdbPlatformString = "Nintendo Virtual Boy";
 
                     break;
 
-                case "Nintendo Wii":
+                case "Wii":
                     tgdbPlatformString = "Nintendo Wii";
 
                     break;
 
-                case "Nintendo Wii U":
+                case "WiiU":
                     tgdbPlatformString = "Nintendo Wii U";
 
                     break;
@@ -773,83 +772,88 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
-                case "Sega 32X":
+                case "Sega32X":
                     tgdbPlatformString = "Sega 32X";
 
                     break;
 
-                case "Sega CD":
+                case "SegaCD":
                     tgdbPlatformString = "Sega CD";
 
                     break;
 
-                case "Sega Dreamcast":
+                case "SegaDreamcast":
                     tgdbPlatformString = "Sega Dreamcast";
 
                     break;
 
-                case "Game Gear":
+                case "SegaGameGear":
                     tgdbPlatformString = "Sega Game Gear";
 
                     break;
 
-                case "Sega Genesis":
+                case "SegaGenesis":
                     tgdbPlatformString = "Sega Genesis";
 
                     break;
 
-                case "Sega Master System":
+                case "SegaMasterSystem":
                     tgdbPlatformString = "Sega Master System";
 
                     break;
 
-                case "Sega Mega Drive":
+                case "SegaMegaDrive":
                     tgdbPlatformString = "Sega Genesis";
 
                     break;
 
-                case "Sega Saturn":
+                case "SegaSaturn":
                     tgdbPlatformString = "Sega Saturn";
 
                     break;
 
-                case "Sony Playstation":
+                case "SonyPlaystation":
                     tgdbPlatformString = "Sony Playstation";
 
                     break;
 
-                case "PS2":
+                case "SonyPlaystation2":
                     tgdbPlatformString = "Sony Playstation 2";
 
                     break;
 
-                case "PS3":
+                case "SonyPlaystation3":
                     tgdbPlatformString = "Sony Playstation 3";
 
                     break;
 
-                case "PS4":
+                case "SonyPlaystation4":
                     tgdbPlatformString = "Sony Playstation 4";
 
                     break;
 
-                case "PSP":
+                case "SonyPSP":
                     tgdbPlatformString = "Sony PSP";
 
                     break;
 
-                case "TurboGrafx 16":
+                case "TurboGrafx16":
                     tgdbPlatformString = "TurboGrafx 16";
 
                     break;
 
-                case "TurboGrafx CD":
+                case "TurboGrafxCD":
                     tgdbPlatformString = "TurboGrafx CD";
                     break;
 
-                case "ZX Spectrum":
+                case "ZxSpectrum":
                     tgdbPlatformString = "ZX Spectrum";
                     break;
+
+#if DEBUG
+                default:
+                    throw new ArgumentException($"Unrecognized game system: {gameSystem}.");
+#endif
             }
 
             return tgdbPlatformString;
