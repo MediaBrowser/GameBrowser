@@ -32,6 +32,8 @@ namespace GameBrowser.Resolvers
                                                         {"Xbox 360", 15},                                                        
                                                         {"Xbox One", 4920},
                                                         {"Neo Geo", 24},
+                                                        {"Neo Geo Pocket", 4922},
+                                                        {"Neo Geo Pocket Color", 4923},
                                                         {"Nintendo 64", 3},
                                                         {"Nintendo DS", 8},
                                                         {"Virtual Boy", 4918},
@@ -143,6 +145,12 @@ namespace GameBrowser.Resolvers
 
                 case "Neo Geo":
                     return "NeoGeo";
+
+                case "Neo Geo Pocket":
+                    return "NeoGeoPocket";
+
+                case "Neo Geo Pocket Color":
+                    return "NeoGeoPocketColor";
 
                 case "Nintendo 64":
                     return "Nintendo64";
@@ -297,6 +305,12 @@ namespace GameBrowser.Resolvers
 
                 case "Neo Geo":
                     return "NeoGeoGame";
+
+                case "Neo Geo Pocket":
+                    return "NeoGeoPocketGame";
+
+                case "Neo Geo Pocket Color":
+                    return "NeoGeoPocketColorGame";
 
                 case "Nintendo 64":
                     return "N64Game";

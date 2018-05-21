@@ -231,6 +231,16 @@ namespace GameBrowser.Providers.EmuMovies
 
                     break;
 
+                case "NeoGeoPocket":
+                    emuMoviesPlatform = "";
+
+                    break;
+
+                case "NeoGeoPocketColor":
+                    emuMoviesPlatform = "";
+
+                    break;
+
                 case "Nintendo64":
                     emuMoviesPlatform = "Nintendo_N64";
 

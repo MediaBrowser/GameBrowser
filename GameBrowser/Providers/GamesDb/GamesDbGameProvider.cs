@@ -713,6 +713,16 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
+                case "NeoGeoPocket":
+                    tgdbPlatformString = "Neo Geo Pocket";
+
+                    break;
+
+                case "NeoGeoPocketColor":
+                    tgdbPlatformString = "Neo Geo Pocket Color";
+
+                    break;
+
                 case "Nintendo64":
                     tgdbPlatformString = "Nintendo 64";
                     break;

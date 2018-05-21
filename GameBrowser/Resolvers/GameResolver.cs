@@ -184,6 +184,12 @@ namespace GameBrowser.Resolvers
                 case "Neo Geo":
                     return new[] { ".zip", ".iso" };
 
+                case "Neo Geo Pocket":
+                    return new[] { ".ngp" };
+
+                case "Neo Geo Pocket Color":
+                    return new[] { ".ngc" };
+
                 case "Nintendo 64":
                     return new[] { ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64", ".zip" };
 
