@@ -94,7 +94,10 @@ namespace GameBrowser.Providers.EmuMovies
 
             if (sessionId == null) return list;
 
-            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
+            var emuMoviesPlatform = GetEmuMoviesPlatformFromGameSystem(game.GameSystem);
+            // TODO Add a setting to search or not image from other game system
+            if (string.IsNullOrEmpty(emuMoviesPlatform)) return list;
+            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), emuMoviesPlatform, mediaType, sessionId);
 
             using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
