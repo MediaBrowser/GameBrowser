@@ -34,6 +34,7 @@ namespace GameBrowser.Resolvers
                                                         {"Neo Geo", 24},
                                                         {"Nintendo 64", 3},
                                                         {"Nintendo DS", 8},
+                                                        {"Virtual Boy", 4918},
                                                         {"Nintendo", 7}, 
                                                         {"Game Boy", 4},
                                                         {"Game Boy Advance", 5},
