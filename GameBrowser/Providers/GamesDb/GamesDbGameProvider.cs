@@ -653,6 +653,11 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
+                case "AtariST":
+                    tgdbPlatformString = "Atari ST";
+
+                    break;
+
                 case "AtariXE":
                     tgdbPlatformString = "Atari XE";
 

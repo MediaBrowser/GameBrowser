@@ -148,6 +148,9 @@ namespace GameBrowser.Resolvers
                 case "Atari 7800":
                     return new[] { ".a78" };
 
+                case "Atari ST":
+                    return new[] { ".ipf" };
+
                 case "Atari XE":
                     return new[] { ".rom" };
 

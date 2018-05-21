@@ -181,6 +181,11 @@ namespace GameBrowser.Providers.EmuMovies
 
                     break;
 
+                case "AtariST":
+                    emuMoviesPlatform = "";
+
+                    break;
+
                 case "AtariXE":
                     emuMoviesPlatform = "Atari_8_bit";
 
