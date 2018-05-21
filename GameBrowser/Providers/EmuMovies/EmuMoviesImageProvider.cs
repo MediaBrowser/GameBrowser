@@ -58,7 +58,6 @@ namespace GameBrowser.Providers.EmuMovies
                 case ImageType.Banner:
                     return FetchImages(game, EmuMoviesMediaTypes.Banner, imageType, cancellationToken);
                 case ImageType.Primary:
-                case ImageType.Box:
                     return FetchImages(game, EmuMoviesMediaTypes.Box, imageType, cancellationToken);
                 case ImageType.BoxRear:
                     return FetchImages(game, EmuMoviesMediaTypes.BoxBack, imageType, cancellationToken);
@@ -70,6 +69,7 @@ namespace GameBrowser.Providers.EmuMovies
                     return FetchImages(game, EmuMoviesMediaTypes.Snap, imageType, cancellationToken);
 
                 case ImageType.Art:
+                case ImageType.Box:
                 case ImageType.Logo:
                 case ImageType.Thumb:
                 case ImageType.Chapter:
@@ -371,7 +371,7 @@ namespace GameBrowser.Providers.EmuMovies
 
         public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
         {
-            return new[] { ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Box, ImageType.BoxRear, ImageType.Disc, ImageType.Menu, ImageType.Screenshot };
+            return new[] { ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.BoxRear, ImageType.Disc, ImageType.Menu, ImageType.Screenshot };
         }
 
         public string Name
