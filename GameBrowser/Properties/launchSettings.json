@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GameBrowser": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\cwarr\\AppData\\Roaming\\Emby-Server\\system\\EmbyServer.exe"
+    }
+  }
+}

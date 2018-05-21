@@ -193,6 +193,11 @@ namespace GameBrowser.Providers.EmuMovies
 
                     break;
 
+                case "AtariLynx":
+                    emuMoviesPlatform = "";
+
+                    break;
+
                 case "Colecovision":
                     emuMoviesPlatform = "Coleco_Vision";
 

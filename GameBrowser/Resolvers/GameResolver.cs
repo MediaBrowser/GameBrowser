@@ -104,7 +104,7 @@ namespace GameBrowser.Resolvers
 
             if (gameFiles.Count == 0)
             {
-                _logger.Error("gameFiles is 0 for " + args.Path);
+                _logger.Error($"gameFiles is 0 for {args.Path}. Expected: {string.Join(";", validExtensions)}. Found: {string.Join(";", args.FileSystemChildren.Where(f => !f.IsDirectory).Select(f => Path.GetExtension(f.FullName)).Distinct())}.");
                 return null;
             }
 
@@ -134,7 +134,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".cue" };
 
                 case "Amiga":
-                    return new[] { ".iso", ".adf" };
+                    return new[] { ".iso", ".adf", ".ipf" };
 
                 case "Arcade":
                     return new[] { ".zip" };
@@ -157,11 +157,14 @@ namespace GameBrowser.Resolvers
                 case "Atari Jaguar CD": // still need to verify
                     return new[] { ".iso" };
 
+                case "Atari Lynx":
+                    return new[] { ".lnx" };
+
                 case "Colecovision":
                     return new[] { ".col", ".rom" };
 
                 case "Commodore 64":
-                    return new[] { ".d64", ".g64", ".prg", ".tap", ".t64" };
+                    return new[] { ".crt", ".d64", ".g64", ".prg", ".tap", ".t64" };
 
                 case "Commodore Vic-20":
                     return new[] { ".prg" };

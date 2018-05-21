@@ -668,6 +668,11 @@ namespace GameBrowser.Providers.GamesDb
 
                     break;
 
+                case "AtariLynx":
+                    tgdbPlatformString = "Atari Lynx";
+
+                    break;
+
                 case "Colecovision":
                     tgdbPlatformString = "Colecovision";
 

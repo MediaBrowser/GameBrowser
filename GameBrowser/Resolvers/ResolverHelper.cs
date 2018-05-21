@@ -22,6 +22,7 @@ namespace GameBrowser.Resolvers
                                                         {"Atari 7800", 27},
                                                         {"Atari Jaguar", 28},
                                                         {"Atari Jaguar CD", 29},
+                                                        {"Atari Lynx", 4924},
                                                         {"Atari XE", 30},
                                                         {"Colecovision", 31},
                                                         {"Commodore 64", 40},
@@ -114,6 +115,9 @@ namespace GameBrowser.Resolvers
 
                 case "Atari Jaguar CD":
                     return "AtariJaguarCD";
+
+                case "Atari Lynx":
+                    return "AtariLynx";
 
                 case "Colecovision":
                     return "Colecovision";
@@ -265,6 +269,9 @@ namespace GameBrowser.Resolvers
 
                 case "Atari Jaguar CD":
                     return "JaguarGame";
+
+                case "Atari Lynx":
+                    return "AtariLynxGame";
 
                 case "Colecovision":
                     return "ColecovisionGame";

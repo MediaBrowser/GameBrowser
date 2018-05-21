@@ -20,4 +20,8 @@
     <PackageReference Include="mediabrowser.server.core" Version="3.3.20" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y &quot;$(targetdir)&quot; &quot;%APPDATA%\Emby-Server\plugins&quot;&#xD;&#xA;" />
+  </Target>
+
 </Project>
