@@ -92,17 +92,12 @@ namespace GameBrowser.Resolvers
         /// <returns>A Game</returns>
         private Game GetGame(ItemResolveArgs args, string consoleType)
         {
-            var validExtensions = GetExtensions(consoleType);
+            var gameSystemDefinition = ResolverHelper.GetExtendedInfoFromConsoleType(consoleType);
+            var validExtensions = gameSystemDefinition?.Extensions;
 
-            var gameFiles = args.FileSystemChildren.Where(f =>
-            {
-                var fileExtension = Path.GetExtension(f.FullName);
+            var gameFiles = args.FileSystemChildren.Where(f => validExtensions.Contains(Path.GetExtension(f.FullName), StringComparer.OrdinalIgnoreCase)).ToArray();
 
-                return validExtensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
-
-            }).ToList();
-
-            if (gameFiles.Count == 0)
+            if (gameFiles.Length == 0)
             {
                 _logger.Error($"gameFiles is 0 for {args.Path}. Expected: {string.Join(";", validExtensions)}. Found: {string.Join(";", args.FileSystemChildren.Where(f => !f.IsDirectory).Select(f => Path.GetExtension(f.FullName)).Distinct())}.");
                 return null;
@@ -111,179 +106,18 @@ namespace GameBrowser.Resolvers
             var game = new Game
             {
                 Path = gameFiles[0].FullName,
-                GameSystem = ResolverHelper.GetGameSystemFromPlatform(consoleType)
+                GameSystem = gameSystemDefinition?.Name
             };
 
             game.IsPlaceHolder = false;
                 
-            if (gameFiles.Count > 1)
+            if (gameFiles.Length > 1)
             {
                 game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
                 game.IsMultiPart = true;
             }
 
             return game;
-        }
-
-
-        private IEnumerable<string> GetExtensions(string consoleType)
-        {
-            switch (consoleType)
-            {
-                case "3DO":
-                    return new[] { ".iso", ".cue" };
-
-                case "Amiga":
-                    return new[] { ".iso", ".adf", ".ipf" };
-
-                case "Arcade":
-                    return new[] { ".zip" };
-
-                case "Atari 2600":
-                    return new[] { ".bin", ".a26" };
-
-                case "Atari 5200":
-                    return new[] { ".bin", ".a52" };
-
-                case "Atari 7800":
-                    return new[] { ".a78" };
-
-                case "Atari ST":
-                    return new[] { ".ipf" };
-
-                case "Atari XE":
-                    return new[] { ".rom" };
-
-                case "Atari Jaguar":
-                    return new[] { ".j64", ".zip" };
-
-                case "Atari Jaguar CD": // still need to verify
-                    return new[] { ".iso" };
-
-                case "Atari Lynx":
-                    return new[] { ".lnx" };
-
-                case "Colecovision":
-                    return new[] { ".col", ".rom" };
-
-                case "Commodore 64":
-                    return new[] { ".crt", ".d64", ".g64", ".prg", ".tap", ".t64" };
-
-                case "Commodore Vic-20":
-                    return new[] { ".prg" };
-
-                case "Intellivision":
-                    return new[] { ".int", ".rom" };
-
-                case "Xbox":
-                    return new[] { ".disc", ".iso" };
-
-                case "Xbox 360":
-                    return new[] { ".disc" };
-
-                case "Xbox One":
-                    return new[] { ".disc" };
-
-                case "Neo Geo":
-                    return new[] { ".zip", ".iso" };
-
-                case "Neo Geo Pocket":
-                    return new[] { ".ngp" };
-
-                case "Neo Geo Pocket Color":
-                    return new[] { ".ngc" };
-
-                case "Nintendo 64":
-                    return new[] { ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64", ".zip" };
-
-                case "Nintendo DS":
-                    return new[] { ".nds", ".zip" };
-
-                case "Nintendo":
-                    return new[] { ".nes", ".zip" };
-
-                case "Game Boy":
-                    return new[] { ".gb", ".zip" };
-
-                case "Game Boy Advance":
-                    return new[] { ".gba", ".zip" };
-
-                case "Game Boy Color":
-                    return new[] { ".gbc", ".zip" };
-
-                case "Gamecube":
-                    return new[] { ".iso", ".bin", ".img", ".gcm", ".gcz" };
-
-                case "Super Nintendo":
-                    return new[] { ".smc", ".zip", ".fam", ".rom", ".sfc", ".fig" };
-
-                case "Virtual Boy":
-                    return new[] { ".vb" };
-
-                case "Nintendo Wii":
-                    return new[] { ".iso", ".dol", ".ciso", ".wbfs", ".wad", ".gcz" };
-
-                case "Nintendo Wii U":
-                    return new[] { ".disc", ".wud" };
-
-                case "DOS":
-                    return new[] { ".gbdos", ".disc" };
-
-                case "Windows":
-                    return new[] { ".gbwin", ".disc" };
-
-                case "Sega 32X":
-                    return new[] { ".iso", ".bin", ".img", ".zip", ".32x" };
-
-                case "Sega CD":
-                    return new[] { ".iso", ".bin", ".img" };
-
-                case "Dreamcast":
-                    return new[] { ".chd", ".gdi", ".cdi" };
-
-                case "Game Gear":
-                    return new[] { ".gg", ".zip" };
-
-                case "Sega Genesis":
-                    return new[] { ".smd", ".bin", ".gen", ".zip", ".md" };
-
-                case "Sega Master System":
-                    return new[] { ".sms", ".sg", ".sc", ".zip" };
-
-                case "Sega Mega Drive":
-                    return new[] { ".smd", ".zip", ".md" };
-
-                case "Sega Saturn":
-                    return new[] { ".iso", ".bin", ".img" };
-
-                case "Sony Playstation":
-                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp" };
-
-                case "PS2":
-                    return new[] { ".iso", ".bin" };
-
-                case "PS3":
-                    return new[] { ".disc" };
-
-                case "PS4":
-                    return new[] { ".disc" };
-
-                case "PSP":
-                    return new[] { ".iso", ".cso" };
-
-                case "TurboGrafx 16":
-                    return new[] { ".pce", ".zip" };
-
-                case "TurboGrafx CD":
-                    return new[] { ".bin", ".iso" };
-
-                case "ZX Spectrum":
-                    return new[] { ".z80", ".tap", ".tzx" };
-
-                default:
-                    return new string[] { };
-            }
-
         }
     }
 }
