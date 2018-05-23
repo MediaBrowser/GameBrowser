@@ -28,7 +28,7 @@
                 {
                     ConsoleType = "Atari 2600",
                     Name = "Atari2600",
-                    Extensions = new[] { ".bin", ".a26" },
+                    Extensions = new[] { ".zip", ".7z", ".bin", ".a26" },
                     TgbdId = 22,
                     TgbdPlatform = "Atari 2600",
                     EmuMoviesPlatform = "Atari_2600"
@@ -38,7 +38,7 @@
                 {
                     ConsoleType = "Atari 5200",
                     Name = "Atari5200",
-                    Extensions = new[] { ".bin", ".a52" },
+                    Extensions = new[] { ".zip", ".7z", ".bin", ".a52" },
                     TgbdId = 26,
                     TgbdPlatform = "Atari 5200",
                     EmuMoviesPlatform = "Atari_5200"
@@ -48,7 +48,7 @@
                 {
                     ConsoleType = "Atari 7800",
                     Name = "Atari7800",
-                    Extensions = new[] { ".a78" },
+                    Extensions = new[] { ".zip", ".7z", ".a78" },
                     TgbdId = 27,
                     TgbdPlatform = "Atari 7800",
                     EmuMoviesPlatform = "Atari_7800"
@@ -58,7 +58,7 @@
                 {
                     ConsoleType = "Atari Jaguar",
                     Name = "AtariJaguar",
-                    Extensions = new[] { ".j64", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".j64" },
                     TgbdId = 28,
                     TgbdPlatform = "Atari Jaguar",
                     EmuMoviesPlatform = "Atari_Jaguar"
@@ -78,7 +78,7 @@
                 {
                     ConsoleType = "Atari Lynx",
                     Name = "AtariLynx",
-                    Extensions = new[] { ".lnx" },
+                    Extensions = new[] { ".zip", ".7z", ".lnx" },
                     TgbdId = 4924,
                     TgbdPlatform = "Atari Lynx",
                     EmuMoviesPlatform = null
@@ -98,7 +98,7 @@
                 {
                     ConsoleType = "Atari XE",
                     Name = "AtariXE",
-                    Extensions = new[] { ".rom" },
+                    Extensions = new[] { ".zip", ".7z", ".rom" },
                     TgbdId = 30,
                     TgbdPlatform = "Atari XE",
                     EmuMoviesPlatform = "Atari_8_bit"
@@ -109,7 +109,7 @@
                 {
                     ConsoleType = "Colecovision",
                     Name = "Colecovision",
-                    Extensions = new[] { ".col", ".rom" },
+                    Extensions = new[] { ".zip", ".7z", ".col", ".rom" },
                     TgbdId = 31,
                     TgbdPlatform = "Colecovision",
                     EmuMoviesPlatform = "Coleco_Vision"
@@ -120,7 +120,7 @@
                 {
                     ConsoleType = "Commodore 64",
                     Name = "Commodore64",
-                    Extensions = new[] { ".crt", ".d64", ".g64", ".prg", ".tap", ".t64" },
+                    Extensions = new[] { ".zip", ".7z", ".crt", ".d64", ".g64", ".prg", ".tap", ".t64" },
                     TgbdId = 40,
                     TgbdPlatform = "Commodore 64",
                     EmuMoviesPlatform = "Commodore_64"
@@ -140,7 +140,7 @@
                 {
                     ConsoleType = "Commodore Vic-20",
                     Name = "CommodoreVic20",
-                    Extensions = new[] { ".prg" },
+                    Extensions = new[] { ".zip", ".7z", ".prg" },
                     TgbdId = 4945,
                     TgbdPlatform = "Commodore Vic-20",
                     EmuMoviesPlatform = null
@@ -151,7 +151,7 @@
                 {
                     ConsoleType = "Intellivision",
                     Name = "Intellivision",
-                    Extensions = new[] { ".int", ".rom" },
+                    Extensions = new[] { ".zip", ".7z", ".int", ".rom" },
                     TgbdId = 32,
                     TgbdPlatform = "Intellivision",
                     EmuMoviesPlatform = "Mattel_Intellivision"
@@ -223,7 +223,7 @@
                 {
                     ConsoleType = "TurboGrafx 16",
                     Name = "TurboGrafx16",
-                    Extensions = new[] { ".pce", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".pce" },
                     TgbdId = 34,
                     TgbdPlatform = "TurboGrafx 16",
                     EmuMoviesPlatform = "NEC_TurboGrafx_16"
@@ -244,7 +244,7 @@
                 {
                     ConsoleType = "Game Boy",
                     Name = "NintendoGameBoy",
-                    Extensions = new[] { ".gb", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".gb" },
                     TgbdId = 4,
                     TgbdPlatform = "Nintendo Game Boy",
                     EmuMoviesPlatform = "Nintendo_Game_Boy"
@@ -254,7 +254,7 @@
                 {
                     ConsoleType = "Game Boy Advance",
                     Name = "NintendoGameBoyAdvance",
-                    Extensions = new[] { ".gba", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".gba" },
                     TgbdId = 5,
                     TgbdPlatform = "Nintendo Game Boy Advance",
                     EmuMoviesPlatform = "Nintendo_Game_Boy_Advance"
@@ -264,7 +264,7 @@
                 {
                     ConsoleType = "Game Boy Color",
                     Name = "NintendoGameBoyColor",
-                    Extensions = new[] { ".gbc", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".gbc" },
                     TgbdId = 41,
                     TgbdPlatform = "Nintendo Game Boy Color",
                     EmuMoviesPlatform = "Nintendo_Game_Boy_Color"
@@ -274,7 +274,7 @@
                 {
                     ConsoleType = "Gamecube",
                     Name = "NintendoGameCube",
-                    Extensions = new[] { ".iso", ".bin", ".img", ".gcm", ".gcz" },
+                    Extensions = new[] { ".zip", ".7z", ".iso", ".bin", ".img", ".gcm", ".gcz" },
                     TgbdId = 2,
                     TgbdPlatform = "Nintendo GameCube",
                     EmuMoviesPlatform = "Nintendo_GameCube"
@@ -284,7 +284,7 @@
                 {
                     ConsoleType = "Nintendo 64",
                     Name = "Nintendo64",
-                    Extensions = new[] { ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".z64", ".v64", ".usa", ".jap", ".pal", ".rom", ".n64" },
                     TgbdId = 3,
                     TgbdPlatform = "Nintendo 64",
                     EmuMoviesPlatform = "Nintendo_N64"
@@ -294,7 +294,7 @@
                 {
                     ConsoleType = "Nintendo DS",
                     Name = "NintendoDS",
-                    Extensions = new[] { ".nds", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".nds" },
                     TgbdId = 8,
                     TgbdPlatform = "Nintendo DS",
                     EmuMoviesPlatform = "Nintendo_DS"
@@ -304,7 +304,7 @@
                 {
                     ConsoleType = "Nintendo",
                     Name = "Nintendo",
-                    Extensions = new[] { ".nes", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".nes" },
                     TgbdId = 7,
                     TgbdPlatform = "Nintendo Entertainment System (NES)",
                     EmuMoviesPlatform = "Nintendo_NES"
@@ -314,7 +314,7 @@
                 {
                     ConsoleType = "Super Nintendo",
                     Name = "SuperNintendo",
-                    Extensions = new[] { ".smc", ".zip", ".fam", ".rom", ".sfc", ".fig" },
+                    Extensions = new[] { ".zip", ".7z", ".smc", ".fam", ".rom", ".sfc", ".fig" },
                     TgbdId = 6,
                     TgbdPlatform = "Super Nintendo (SNES)",
                     EmuMoviesPlatform = "Nintendo_SNES"
@@ -324,7 +324,7 @@
                 {
                     ConsoleType = "Virtual Boy",
                     Name = "VirtualBoy",
-                    Extensions = new[] { ".vb" },
+                    Extensions = new[] { ".zip", ".7z", ".vb" },
                     TgbdId = 4918,
                     TgbdPlatform = "Nintendo Virtual Boy",
                     EmuMoviesPlatform = null
@@ -366,7 +366,7 @@
                 {
                     ConsoleType = "Sega 32X",
                     Name = "Sega32X",
-                    Extensions = new[] { ".iso", ".bin", ".img", ".zip", ".32x" },
+                    Extensions = new[] { ".zip", ".7z", ".iso", ".bin", ".img", ".32x" },
                     TgbdId = 33,
                     TgbdPlatform = "Sega 32X",
                     EmuMoviesPlatform = "Sega_Genesis"
@@ -396,7 +396,7 @@
                 {
                     ConsoleType = "Game Gear",
                     Name = "SegaGameGear",
-                    Extensions = new[] { ".gg", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".gg" },
                     TgbdId = 20,
                     TgbdPlatform = "Sega Game Gear",
                     EmuMoviesPlatform = "Sega_Game_Gear"
@@ -406,7 +406,7 @@
                 {
                     ConsoleType = "Sega Mega Drive",
                     Name = "SegaMegaDrive",
-                    Extensions = new[] { ".smd", ".zip", ".md" },
+                    Extensions = new[] { ".zip", ".7z", ".smd", ".md" },
                     TgbdId = 36,
                     TgbdPlatform = "Sega Genesis",
                     EmuMoviesPlatform = "Sega_Genesis"
@@ -416,7 +416,7 @@
                 {
                     ConsoleType = "Sega Genesis",
                     Name = "SegaGenesis",
-                    Extensions = new[] { ".smd", ".bin", ".gen", ".zip", ".md" },
+                    Extensions = new[] { ".zip", ".7z", ".smd", ".bin", ".gen", ".md" },
                     TgbdId = 18,
                     TgbdPlatform = "Sega Genesis",
                     EmuMoviesPlatform = "Sega_Genesis"
@@ -426,7 +426,7 @@
                 {
                     ConsoleType = "Sega Master System",
                     Name = "SegaMasterSystem",
-                    Extensions = new[] { ".sms", ".sg", ".sc", ".zip" },
+                    Extensions = new[] { ".zip", ".7z", ".sms", ".sg", ".sc" },
                     TgbdId = 35,
                     TgbdPlatform = "Sega Master System",
                     EmuMoviesPlatform = "Sega_Master_System"
@@ -447,7 +447,7 @@
                 {
                     ConsoleType = "ZX Spectrum",
                     Name = "ZxSpectrum",
-                    Extensions = new[] { ".z80", ".tap", ".tzx" },
+                    Extensions = new[] { ".zip", ".7z", ".z80", ".tap", ".tzx" },
                     TgbdId = 4913,
                     TgbdPlatform = "ZX Spectrum",
                     EmuMoviesPlatform = null
@@ -458,7 +458,7 @@
                 {
                     ConsoleType = "Neo Geo",
                     Name = "NeoGeo",
-                    Extensions = new[] { ".zip", ".iso" },
+                    Extensions = new[] { ".zip", ".7z", ".iso" },
                     TgbdId = 24,
                     TgbdPlatform = "NeoGeo",
                     EmuMoviesPlatform = "SNK_Neo_Geo_AES"
@@ -468,7 +468,7 @@
                 {
                     ConsoleType = "Neo Geo Pocket",
                     Name = "NeoGeoPocket",
-                    Extensions = new[] { ".ngp" },
+                    Extensions = new[] { ".zip", ".7z", ".ngp" },
                     TgbdId = 4922,
                     TgbdPlatform = "Neo Geo Pocket",
                     EmuMoviesPlatform = null
@@ -478,7 +478,7 @@
                 {
                     ConsoleType = "Neo Geo Pocket Color",
                     Name = "NeoGeoPocketColor",
-                    Extensions = new[] { ".ngc" },
+                    Extensions = new[] { ".zip", ".7z", ".ngc" },
                     TgbdId = 4923,
                     TgbdPlatform = "Neo Geo Pocket Color",
                     EmuMoviesPlatform = null
