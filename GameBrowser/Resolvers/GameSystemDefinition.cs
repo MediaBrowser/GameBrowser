@@ -535,46 +535,5 @@
                     EmuMoviesPlatform = "Sony_PSP"
                 }
         };
-
-        // This method was not used. Making a commit to have it in history then deleting.
-        // public static string GetDisplayMediaTypeFromPlatform(string platform)
-        //     "3DO" => "Panasonic3doGame";
-        //     "Atari XE" => "AtariXeGame";
-        //     "Atari Jaguar" => "JaguarGame";
-        //     "Atari Jaguar CD"=>"JaguarGame";
-        //     "Commodore 64" => "C64Game";
-        //     "Commodore Vic-20" => "Vic20Game";
-        //     "Xbox" => "XboxGame";
-        //     "Xbox 360" => "Xbox360Game";
-        //     "Xbox One" => "XboxOneGame";
-        //     "Nintendo 64" => "N64Game";
-        //     "Nintendo DS" => "NesGame";
-        //     "Nintendo" => "NesGame";
-        //     "Game Boy" => "GameBoyGame";
-        //     "Game Boy Advance" => "GameBoyAdvanceGame";
-        //     "Game Boy Color" => "GameBoyColorGame";
-        //     "Gamecube" => "GameCubeGame";
-        //     "Super Nintendo" => "SnesGame";
-        //     "Virtual Boy" => "NesGame";
-        //     "Nintendo Wii" => "NesGame";
-        //     "Nintendo Wii U" => "WiiUGame";
-        //     "DOS" => "DosGame";
-        //     "Windows" => "WindowsGame";
-        //     "Sega 32X" => "GenesisGame";
-        //     "Sega CD" => "GenesisGame";
-        //     "Dreamcast" => "GenesisGame";
-        //     "Game Gear" => "GenesisGame";
-        //     "Sega Genesis" => "GenesisGame";
-        //     "Sega Master System" => "GenesisGame";
-        //     "Sega Mega Drive" => "GenesisGame";
-        //     "Sega Saturn" => "GenesisGame";
-        //     "Sony Playstation" => "PsOneGame";
-        //     "PS2" => "Ps2Game";
-        //     "PS3" => "Ps3Game";
-        //     "PS4" => "Ps4Game";
-        //     "PSP" => "PlayStationPortableGame";
-        //     "TurboGrafx 16" => "TurboGrafx16Game";
-        //     "TurboGrafx CD" => "TurboGrafx16Game";
-        //     "ZX Spectrum" => "ZXSpectrumGame";
     }
 }
