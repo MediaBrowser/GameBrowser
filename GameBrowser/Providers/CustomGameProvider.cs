@@ -32,7 +32,7 @@ namespace GameBrowser.Providers
 
                 if (!string.IsNullOrEmpty(platform))
                 {
-                    item.GameSystem = ResolverHelper.GetExtendedInfoFromConsoleType(platform)?.Name;
+                    item.GameSystem = ResolverHelper.GetExtendedInfoFromPlatform(platform)?.Name;
 
                     result = _cachedResultWithUpdate;
                 }
