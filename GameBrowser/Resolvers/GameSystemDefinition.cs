@@ -120,7 +120,7 @@
                 {
                     ConsoleType = "Commodore 64",
                     Name = "Commodore64",
-                    Extensions = new[] { ".zip", ".7z", ".crt", ".d64", ".g64", ".prg", ".tap", ".t64" },
+                    Extensions = new[] { ".zip", ".7z", ".crt", ".d64", ".g64", ".prg", ".tap", ".t64", ".bin" },
                     TgbdId = 40,
                     TgbdPlatform = "Commodore 64",
                     EmuMoviesPlatform = "Commodore_64"
@@ -130,7 +130,7 @@
                 {
                     ConsoleType = "Amiga",
                     Name = "Amiga",
-                    Extensions = new[] { ".iso", ".adf", ".ipf" },
+                    Extensions = new[] { ".iso", ".adf", ".ipf", ".rom" },
                     TgbdId = 4911,
                     TgbdPlatform = "Amiga",
                     EmuMoviesPlatform = null
@@ -314,7 +314,7 @@
                 {
                     ConsoleType = "Super Nintendo",
                     Name = "SuperNintendo",
-                    Extensions = new[] { ".zip", ".7z", ".smc", ".fam", ".rom", ".sfc", ".fig" },
+                    Extensions = new[] { ".zip", ".7z", ".smc", ".fam", ".rom", ".sfc", ".fig", ".bin" },
                     TgbdId = 6,
                     TgbdPlatform = "Super Nintendo (SNES)",
                     EmuMoviesPlatform = "Nintendo_SNES"
