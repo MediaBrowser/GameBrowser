@@ -47,9 +47,9 @@ namespace GameBrowser.Providers.GamesDb
             });
         }
 
-        public async Task<IEnumerable<RemoteSearchResult>> GetSearchResults(GameSystemInfo searchInfo, CancellationToken cancellationToken)
+        public Task<IEnumerable<RemoteSearchResult>> GetSearchResults(GameSystemInfo searchInfo, CancellationToken cancellationToken)
         {
-            return new List<RemoteSearchResult>();
+            return Task.FromResult<IEnumerable<RemoteSearchResult>>(new List<RemoteSearchResult>());
         }
 
         public async Task<MetadataResult<GameSystem>> GetMetadata(GameSystemInfo id, CancellationToken cancellationToken)

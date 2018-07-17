@@ -556,7 +556,7 @@ namespace GameBrowser.Providers.GamesDb
                 }
 
                 if (gameGenres.Count > 0)
-                    game.Genres = gameGenres;
+                    game.Genres = gameGenres.ToArray();
             }
 
             var gamePublisher = xmlDocument.SafeGetString("//Game/Publisher");
