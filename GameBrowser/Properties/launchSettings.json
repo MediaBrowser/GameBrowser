@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GameBrowser": {
+      "commandName": "Executable",
+      "executablePath": "%APPDATA%\\Emby-Server\\system\\EmbyServer.exe"
+    }
+  }
+}

@@ -156,11 +156,9 @@ namespace GameBrowser.Providers.GamesDb
         public string FindPlatformId(GameSystemInfo console)
         {
             var platformSettings = Plugin.Instance.Configuration.GameSystems.FirstOrDefault(gs => console.Path.Equals(gs.Path));
-
             if (platformSettings != null)
             {
-                var id = ResolverHelper.GetTgdbId(platformSettings.ConsoleType);
-
+                var id = ResolverHelper.GetExtendedInfoFromConsoleType(platformSettings.ConsoleType)?.TgbdId;
                 if (id != null)
                 {
                     return id.ToString();

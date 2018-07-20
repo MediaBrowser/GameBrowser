@@ -1,22 +1,23 @@
 ﻿using GameBrowser.Extensions;
+using GameBrowser.Resolvers;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Providers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Linq;
-using MediaBrowser.Model.IO;
 
 namespace GameBrowser.Providers.GamesDb
 {
@@ -209,7 +210,7 @@ namespace GameBrowser.Providers.GamesDb
             cancellationToken.ThrowIfCancellationRequested();
 
             var name = item.Name;
-            var platform = GetTgdbPlatformFromGameSystem(item.GameSystem);
+            var platform = ResolverHelper.GetExtendedInfoFromGameSystem(item.GameSystem)?.TgbdPlatform;
             var year = item.Year;
 
             foreach (var re in NameMatches)
@@ -225,8 +226,7 @@ namespace GameBrowser.Providers.GamesDb
 
                         if (yearValue != null && !string.IsNullOrWhiteSpace(yearValue.Value))
                         {
-                            int yearNum;
-                            if (Int32.TryParse(yearValue.Value, out yearNum))
+                            if (Int32.TryParse(yearValue.Value, out int yearNum))
                             {
                                 year = yearNum;
                             }
@@ -617,243 +617,5 @@ namespace GameBrowser.Providers.GamesDb
 
             return GenreMap.ContainsKey(g) ? GenreMap[g] : "";
         }
-        private string GetTgdbPlatformFromGameSystem(string gameSystem)
-        {
-            string tgdbPlatformString = null;
-
-            switch (gameSystem)
-            {
-                case "3DO":
-                    tgdbPlatformString = "3DO";
-
-                    break;
-
-                case "Amiga":
-                    tgdbPlatformString = "Amiga";
-
-                    break;
-
-                case "Arcade":
-                    tgdbPlatformString = "Arcade";
-
-                    break;
-
-                case "Atari 2600":
-                    tgdbPlatformString = "Atari 2600";
-
-                    break;
-
-                case "Atari 5200":
-                    tgdbPlatformString = "Atari 5200";
-
-                    break;
-
-                case "Atari 7800":
-                    tgdbPlatformString = "Atari 7800";
-
-                    break;
-
-                case "Atari XE":
-                    tgdbPlatformString = "Atari XE";
-
-                    break;
-
-                case "Atari Jaguar":
-                    tgdbPlatformString = "Atari Jaguar";
-
-                    break;
-
-                case "Atari Jaguar CD":
-                    tgdbPlatformString = "Atari Jaguar CD";
-
-                    break;
-
-                case "Colecovision":
-                    tgdbPlatformString = "Colecovision";
-
-                    break;
-
-                case "Commodore 64":
-                    tgdbPlatformString = "Commodore 64";
-
-                    break;
-
-                case "Commodore Vic-20":
-                    tgdbPlatformString = "Commodore Vic-20";
-
-                    break;
-
-                case "Intellivision":
-                    tgdbPlatformString = "Intellivision";
-
-                    break;
-
-                case "Xbox":
-                    tgdbPlatformString = "Microsoft Xbox";
-
-                    break;
-
-                case "Xbox 360":
-                    tgdbPlatformString = "Microsoft Xbox 360";
-
-                    break;
-
-                case "Xbox One":
-                    tgdbPlatformString = "Microsoft Xbox One";
-
-                    break;
-
-                case "Neo Geo":
-                    tgdbPlatformString = "NeoGeo";
-
-                    break;
-
-                case "Nintendo 64":
-                    tgdbPlatformString = "Nintendo 64";
-
-                    break;
-
-                case "Nintendo DS":
-                    tgdbPlatformString = "Nintendo DS";
-
-                    break;
-
-                case "Nintendo":
-                    tgdbPlatformString = "Nintendo Entertainment System (NES)";
-
-                    break;
-
-                case "Game Boy":
-                    tgdbPlatformString = "Nintendo Game Boy";
-
-                    break;
-
-                case "Game Boy Advance":
-                    tgdbPlatformString = "Nintendo Game Boy Advance";
-
-                    break;
-
-                case "Game Boy Color":
-                    tgdbPlatformString = "Nintendo Game Boy Color";
-
-                    break;
-
-                case "Gamecube":
-                    tgdbPlatformString = "Nintendo GameCube";
-
-                    break;
-
-                case "Super Nintendo":
-                    tgdbPlatformString = "Super Nintendo (SNES)";
-
-                    break;
-
-                case "Virtual Boy":
-                    tgdbPlatformString = "Nintendo Virtual Boy";
-
-                    break;
-
-                case "Nintendo Wii":
-                    tgdbPlatformString = "Nintendo Wii";
-
-                    break;
-
-                case "Nintendo Wii U":
-                    tgdbPlatformString = "Nintendo Wii U";
-
-                    break;
-
-                case "DOS":
-                    tgdbPlatformString = "PC";
-
-                    break;
-
-                case "Windows":
-                    tgdbPlatformString = "PC";
-
-                    break;
-
-                case "Sega 32X":
-                    tgdbPlatformString = "Sega 32X";
-
-                    break;
-
-                case "Sega CD":
-                    tgdbPlatformString = "Sega CD";
-
-                    break;
-
-                case "Sega Dreamcast":
-                    tgdbPlatformString = "Sega Dreamcast";
-
-                    break;
-
-                case "Game Gear":
-                    tgdbPlatformString = "Sega Game Gear";
-
-                    break;
-
-                case "Sega Genesis":
-                    tgdbPlatformString = "Sega Genesis";
-
-                    break;
-
-                case "Sega Master System":
-                    tgdbPlatformString = "Sega Master System";
-
-                    break;
-
-                case "Sega Mega Drive":
-                    tgdbPlatformString = "Sega Genesis";
-
-                    break;
-
-                case "Sega Saturn":
-                    tgdbPlatformString = "Sega Saturn";
-
-                    break;
-
-                case "Sony Playstation":
-                    tgdbPlatformString = "Sony Playstation";
-
-                    break;
-
-                case "PS2":
-                    tgdbPlatformString = "Sony Playstation 2";
-
-                    break;
-
-                case "PS3":
-                    tgdbPlatformString = "Sony Playstation 3";
-
-                    break;
-
-                case "PS4":
-                    tgdbPlatformString = "Sony Playstation 4";
-
-                    break;
-
-                case "PSP":
-                    tgdbPlatformString = "Sony PSP";
-
-                    break;
-
-                case "TurboGrafx 16":
-                    tgdbPlatformString = "TurboGrafx 16";
-
-                    break;
-
-                case "TurboGrafx CD":
-                    tgdbPlatformString = "TurboGrafx CD";
-                    break;
-
-                case "ZX Spectrum":
-                    tgdbPlatformString = "ZX Spectrum";
-                    break;
-            }
-
-            return tgdbPlatformString;
-        }
-
     }
 }

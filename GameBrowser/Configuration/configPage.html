@@ -143,6 +143,12 @@
 
                         html += '<div class="selectContainer">';
                         html += '<select class="selectGameSystem" is="emby-select" label="Game system:">';
+
+                        // TODO Find a way to get acces to GameSystemDefinition.All to fill this list.
+                        // for (var i = 0; i < config.GameSystemDefinitions.length; i++) {
+                        //     var definition = config.GameSystemDefinition[i];
+                        //     html += '<option value="' + definition.Name + '">' + definition.ConsoleType + '</option>';
+                        // }
                         html += '<option value="3DO">3DO</option>\
                                 <option value="Amiga">Amiga</option>\
                                 <option value="Arcade">Arcade</option>\
@@ -151,6 +157,8 @@
                                 <option value="Atari 7800">Atari 7800</option>\
                                 <option value="Atari Jaguar">Atari Jaguar</option>\
                                 <option value="Atari Jaguar CD">Atari Jaguar CD</option>\
+                                <option value="Atari Lynx">Atari Lynx</option>\
+                                <option value="Atari ST">Atari ST</option>\
                                 <option value="Atari XE">Atari XE</option>\
                                 <option value="Colecovision">Colecovision</option>\
                                 <option value="Commodore 64">Commodore 64</option>\
@@ -161,6 +169,8 @@
                                 <option value="Xbox 360">Microsoft XBox 360</option>\
                                 <option value="Xbox One">Microsoft XBox One</option>\
                                 <option value="Neo Geo">Neo-Geo</option>\
+                                <option value="Neo Geo Pocket">Neo-Geo Pocket</option>\
+                                <option value="Neo Geo Pocket Color">Neo-Geo Pocket Color</option>\
                                 <option value="Nintendo 64">Nintendo 64</option>\
                                 <option value="Nintendo DS">Nintendo DS</option>\
                                 <option value="Game Boy">Nintendo Game Boy</option>\

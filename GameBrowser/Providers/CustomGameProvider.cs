@@ -32,7 +32,8 @@ namespace GameBrowser.Providers
 
                 if (!string.IsNullOrEmpty(platform))
                 {
-                    item.GameSystem = ResolverHelper.GetGameSystemFromPlatform(platform);
+                    item.GameSystem = ResolverHelper.GetExtendedInfoFromPlatform(platform)?.Name;
+
                     result = _cachedResultWithUpdate;
                 }
             }
