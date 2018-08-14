@@ -7,13 +7,15 @@ using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Services;
+using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.Querying;
 
 namespace GameBrowser.Api
 {
     [Route("/GameBrowser/GamePlatforms", "GET")]
     public class GetConfiguredPlatforms
     {
-           
+
     }
 
     [Route("/GameBrowser/Games/Dos", "GET")]
@@ -66,9 +68,12 @@ namespace GameBrowser.Api
         {
             _logger.Debug("GetDosGames request received");
 
-            var dosGames = _libraryManager.RootFolder.RecursiveChildren
+            var dosGames = _libraryManager.GetItemList(new InternalItemsQuery
+            {
+                IncludeItemTypes = new[] { typeof(Game).Name },
+                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
+            })
                 .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("DOS"))
-                .OrderBy(i => i.SortName)
                 .ToList();
 
             var gameNameList = new List<String>();
@@ -92,9 +97,12 @@ namespace GameBrowser.Api
         {
             _logger.Debug("GetWindowsGames request received");
 
-            var windowsGames = _libraryManager.RootFolder.RecursiveChildren
+            var windowsGames = _libraryManager.GetItemList(new InternalItemsQuery
+            {
+                IncludeItemTypes = new[] { typeof(Game).Name },
+                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
+            })
                 .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
-                .OrderBy(i => i.SortName)
                 .ToList();
 
             var gameNameList = new List<String>();
