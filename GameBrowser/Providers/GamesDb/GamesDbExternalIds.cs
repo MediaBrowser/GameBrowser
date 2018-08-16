@@ -23,7 +23,7 @@ namespace GameBrowser.Providers.GamesDb
 
         public string UrlFormatString
         {
-            get { return "http://thegamesdb.net/game/{0}"; }
+            get { return "https://thegamesdb.net/game.php?id={0}"; }
         }
 
         public static string KeyName
