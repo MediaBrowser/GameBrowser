@@ -27,10 +27,8 @@ namespace GameBrowser.Library.Utils
                     // Build the dictionary if it's not already populated
                     if (_romNamesDictionary == null)
                     {
-                        logger.Info("GameBrowser: Initializing RomNamesDictionary");
                         _romNamesDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-                        logger.Info("GameBrowser: Building RomNamesDictionary");
                         BuildRomNamesDictionary(logger);
                     }
                 }

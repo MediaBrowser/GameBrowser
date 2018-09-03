@@ -50,7 +50,7 @@ namespace GameBrowser.Resolvers
             {
                 return null;
             }
-            
+
             var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, args.Path);
 
             if (string.IsNullOrEmpty(platform)) return null;
@@ -70,12 +70,20 @@ namespace GameBrowser.Resolvers
                     // ignore zips that are bios roms.
                     if (MameUtils.IsBiosRom(args.Path)) return null;
 
+                    var gameSystem = args.Parent as GameSystem ?? args.Parent.FindParent<GameSystem>();
+
+                    if (gameSystem == null)
+                    {
+                        return null;
+                    }
+
                     var game = new Game
                     {
                         Name = MameUtils.GetFullNameFromPath(args.Path, _logger),
                         Path = args.Path,
-                        GameSystem = "Arcade",
-                        IsInMixedFolder = true
+                        IsInMixedFolder = true,
+                        Album = gameSystem.Name,
+                        AlbumId = gameSystem.InternalId
                     };
                     return game;
                 }
@@ -108,19 +116,25 @@ namespace GameBrowser.Resolvers
                 return null;
             }
 
+            var gameSystem = args.Parent as GameSystem ?? args.Parent.FindParent<GameSystem>();
+
+            if (gameSystem == null)
+            {
+                return null;
+            }
+
             var game = new Game
             {
                 Path = gameFiles[0].FullName,
-                GameSystem = ResolverHelper.GetGameSystemFromPlatform(consoleType)
+                Album = gameSystem.Name,
+                AlbumId = gameSystem.InternalId
             };
 
-            game.IsPlaceHolder = false;
-                
-            if (gameFiles.Count > 1)
-            {
-                game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
-                game.IsMultiPart = true;
-            }
+            //if (gameFiles.Count > 1)
+            //{
+            //    game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
+            //    game.IsMultiPart = true;
+            //}
 
             return game;
         }

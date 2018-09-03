@@ -49,7 +49,7 @@ namespace GameBrowser.Resolvers
 
                     if (system != null)
                     {
-                        return new GameSystem {GameSystemName = system.ConsoleType};
+                        return new GameSystem();
                     }
                 }
             }

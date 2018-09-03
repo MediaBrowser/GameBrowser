@@ -73,13 +73,13 @@ namespace GameBrowser.Api
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
             })
-                .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("DOS"))
+                //.Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("DOS"))
                 .ToList();
 
             var gameNameList = new List<String>();
 
-            if (dosGames.Count > 0)
-                gameNameList.AddRange(dosGames.Select(bi => bi.Name));
+            //if (dosGames.Count > 0)
+            //    gameNameList.AddRange(dosGames.Select(bi => bi.Name));
 
             return new GameQueryResult
             {
@@ -102,13 +102,13 @@ namespace GameBrowser.Api
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
             })
-                .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
+                //.Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
                 .ToList();
 
             var gameNameList = new List<String>();
 
-            if (windowsGames.Count > 0)
-                gameNameList.AddRange(windowsGames.Select(bi => bi.Name));
+            //if (windowsGames.Count > 0)
+            //    gameNameList.AddRange(windowsGames.Select(bi => bi.Name));
 
             return new GameQueryResult
             {

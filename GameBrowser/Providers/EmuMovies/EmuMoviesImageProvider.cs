@@ -2,6 +2,7 @@
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Providers;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace GameBrowser.Providers.EmuMovies
     public class EmuMoviesImageProvider : IRemoteImageProvider, IHasOrder
     {
         private readonly IHttpClient _httpClient;
+        private readonly IFileSystem _fileSystem;
 
-        public EmuMoviesImageProvider(IHttpClient httpClient)
+        public EmuMoviesImageProvider(IHttpClient httpClient, IFileSystem fileSystem)
         {
             _httpClient = httpClient;
+            _fileSystem = fileSystem;
         }
 
         public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
@@ -82,7 +85,8 @@ namespace GameBrowser.Providers.EmuMovies
 
             if (sessionId == null) return list;
 
-            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
+            var consoleType = Resolvers.ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, game.Path);
+            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(consoleType), mediaType, sessionId);
 
             using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
