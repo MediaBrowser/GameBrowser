@@ -79,6 +79,12 @@ namespace GameBrowser.Providers.EmuMovies
         /// <returns>Task{IEnumerable{RemoteImageInfo}}.</returns>
         private async Task<IEnumerable<RemoteImageInfo>> FetchImages(Game game, EmuMoviesMediaTypes mediaType, ImageType type, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(Plugin.Instance.Configuration.EmuMoviesUsername) ||
+                string.IsNullOrEmpty(Plugin.Instance.Configuration.EmuMoviesPassword))
+            {
+                return new List<RemoteImageInfo>();
+            }
+
             var sessionId = await Plugin.Instance.GetEmuMoviesToken(cancellationToken);
 
             var list = new List<RemoteImageInfo>();

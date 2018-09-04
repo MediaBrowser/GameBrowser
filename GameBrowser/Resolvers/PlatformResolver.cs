@@ -21,36 +21,27 @@ namespace GameBrowser.Resolvers
         {
             if (args.IsDirectory)
             {
-                if (args.Parent != null)
+                var collectionType = args.GetCollectionType();
+
+                if (!string.Equals(collectionType, CollectionType.Games, StringComparison.OrdinalIgnoreCase))
                 {
-                    var collectionType = args.GetCollectionType();
+                    return null;
+                }
 
-                    if (!string.Equals(collectionType, CollectionType.Games, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return null;
-                    }
+                var configuredSystems = Plugin.Instance.Configuration.GameSystems;
 
-                    // Optimization to avoid running all these tests against VF's
-                    if (args.Parent.IsRoot)
-                    {
-                        return null;
-                    }
+                if (configuredSystems == null)
+                {
+                    return null;
+                }
 
-                    var configuredSystems = Plugin.Instance.Configuration.GameSystems;
+                var system =
+                    configuredSystems.FirstOrDefault(
+                        s => string.Equals(args.Path, s.Path, StringComparison.OrdinalIgnoreCase));
 
-                    if (configuredSystems == null)
-                    {
-                        return null;
-                    }
-
-                    var system =
-                        configuredSystems.FirstOrDefault(
-                            s => string.Equals(args.Path, s.Path, StringComparison.OrdinalIgnoreCase));
-
-                    if (system != null)
-                    {
-                        return new GameSystem();
-                    }
+                if (system != null)
+                {
+                    return new GameSystem();
                 }
             }
 
