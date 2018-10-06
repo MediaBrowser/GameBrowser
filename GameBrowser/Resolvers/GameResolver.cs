@@ -146,7 +146,8 @@ namespace GameBrowser.Resolvers
                         Path = path,
                         IsInMixedFolder = true,
                         Album = gameSystem.Name,
-                        AlbumId = gameSystem.InternalId
+                        AlbumId = gameSystem.InternalId,
+                        Container = extension.TrimStart('.')
                     };
                     return game;
                 }
@@ -165,7 +166,8 @@ namespace GameBrowser.Resolvers
                 {
                     Path = path,
                     Album = gameSystem.Name,
-                    AlbumId = gameSystem.InternalId
+                    AlbumId = gameSystem.InternalId,
+                    Container = fileExtension.TrimStart('.')
                 };
 
                 //if (gameFiles.Count > 1)
