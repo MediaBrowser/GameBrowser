@@ -45,8 +45,7 @@ namespace GameBrowser.Providers.EmuMovies
             return _httpClient.GetResponse(new HttpRequestOptions
             {
                 CancellationToken = cancellationToken,
-                Url = url,
-                ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+                Url = url
             });
         }
 
@@ -98,8 +97,7 @@ namespace GameBrowser.Providers.EmuMovies
             {
 
                 Url = url,
-                CancellationToken = cancellationToken,
-                ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+                CancellationToken = cancellationToken
 
             }, "GET").ConfigureAwait(false))
             {

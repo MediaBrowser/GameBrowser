@@ -23,9 +23,6 @@ namespace GameBrowser
     /// </summary>
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, IHasThumbImage
     {
-        public readonly SemaphoreSlim TgdbSemiphore = new SemaphoreSlim(5, 5);
-        public readonly SemaphoreSlim EmuMoviesSemiphore = new SemaphoreSlim(5, 5);
-
         private const string EmuMoviesApiKey = @"4D8621EE919A13EB6E89B7EDCA6424FC33D6";
 
         private readonly ILogger _logger;
@@ -189,8 +186,7 @@ namespace GameBrowser
                 {
 
                     Url = url,
-                    CancellationToken = cancellationToken,
-                    ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+                    CancellationToken = cancellationToken
 
                 }, "GET").ConfigureAwait(false))
                 {
