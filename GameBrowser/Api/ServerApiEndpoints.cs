@@ -7,13 +7,15 @@ using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Services;
+using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.Querying;
 
 namespace GameBrowser.Api
 {
     [Route("/GameBrowser/GamePlatforms", "GET")]
     public class GetConfiguredPlatforms
     {
-           
+
     }
 
     [Route("/GameBrowser/Games/Dos", "GET")]
@@ -66,15 +68,26 @@ namespace GameBrowser.Api
         {
             _logger.Debug("GetDosGames request received");
 
-            var dosGames = _libraryManager.RootFolder.RecursiveChildren
-                .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("DOS"))
-                .OrderBy(i => i.SortName)
+            var dosGames = _libraryManager.GetItemList(new InternalItemsQuery
+            {
+                IncludeItemTypes = new[] { typeof(Game).Name },
+                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
+            })
                 .ToList();
 
             var gameNameList = new List<String>();
 
             if (dosGames.Count > 0)
-                gameNameList.AddRange(dosGames.Select(bi => bi.Name));
+            {
+                foreach (var item in dosGames)
+                {
+                    var parent = item.FindParent<GameSystem>();
+                    if (parent.Name == "DOS")
+                        gameNameList.Add(item.Name);
+
+                }
+
+            }
 
             return new GameQueryResult
             {
@@ -92,15 +105,27 @@ namespace GameBrowser.Api
         {
             _logger.Debug("GetWindowsGames request received");
 
-            var windowsGames = _libraryManager.RootFolder.RecursiveChildren
-                .Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
-                .OrderBy(i => i.SortName)
+            var windowsGames = _libraryManager.GetItemList(new InternalItemsQuery
+            {
+                IncludeItemTypes = new[] { typeof(Game).Name },
+                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
+            })
+                //.Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
                 .ToList();
 
+            
             var gameNameList = new List<String>();
-
             if (windowsGames.Count > 0)
-                gameNameList.AddRange(windowsGames.Select(bi => bi.Name));
+            {
+                foreach (var item in windowsGames)
+                {
+                    var parent = item.FindParent<GameSystem>();
+                    if (parent.Name == "PC")
+                        gameNameList.Add(item.Name);
+
+                }
+
+            }    
 
             return new GameQueryResult
             {
