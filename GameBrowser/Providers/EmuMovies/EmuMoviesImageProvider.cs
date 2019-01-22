@@ -2,6 +2,7 @@
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Providers;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,15 @@ namespace GameBrowser.Providers.EmuMovies
     public class EmuMoviesImageProvider : IRemoteImageProvider, IHasOrder
     {
         private readonly IHttpClient _httpClient;
+        private readonly IFileSystem _fileSystem;
 
-        public EmuMoviesImageProvider(IHttpClient httpClient)
+        public EmuMoviesImageProvider(IHttpClient httpClient, IFileSystem fileSystem)
         {
             _httpClient = httpClient;
+            _fileSystem = fileSystem;
         }
 
-        public async Task<IEnumerable<RemoteImageInfo>> GetImages(IHasMetadata item, CancellationToken cancellationToken)
+        public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
         {
             var list = new List<RemoteImageInfo>();
 
@@ -42,12 +45,11 @@ namespace GameBrowser.Providers.EmuMovies
             return _httpClient.GetResponse(new HttpRequestOptions
             {
                 CancellationToken = cancellationToken,
-                Url = url,
-                ResourcePool = Plugin.Instance.EmuMoviesSemiphore
+                Url = url
             });
         }
 
-        public Task<IEnumerable<RemoteImageInfo>> GetImages(IHasMetadata item, ImageType imageType, CancellationToken cancellationToken)
+        public Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, ImageType imageType, CancellationToken cancellationToken)
         {
             var game = (Game)item;
 
@@ -76,44 +78,60 @@ namespace GameBrowser.Providers.EmuMovies
         /// <returns>Task{IEnumerable{RemoteImageInfo}}.</returns>
         private async Task<IEnumerable<RemoteImageInfo>> FetchImages(Game game, EmuMoviesMediaTypes mediaType, ImageType type, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(Plugin.Instance.Configuration.EmuMoviesUsername) ||
+                string.IsNullOrEmpty(Plugin.Instance.Configuration.EmuMoviesPassword))
+            {
+                return new List<RemoteImageInfo>();
+            }
+
             var sessionId = await Plugin.Instance.GetEmuMoviesToken(cancellationToken);
 
             var list = new List<RemoteImageInfo>();
 
             if (sessionId == null) return list;
 
-            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(game.GameSystem), mediaType, sessionId);
+            var consoleType = Resolvers.ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, game.Path);
+            var url = string.Format(EmuMoviesUrls.Search, WebUtility.UrlEncode(game.Name), GetEmuMoviesPlatformFromGameSystem(consoleType), mediaType, sessionId);
 
-            using (var stream = await _httpClient.Get(url, Plugin.Instance.EmuMoviesSemiphore, cancellationToken).ConfigureAwait(false))
+            using (var response = await _httpClient.SendAsync(new HttpRequestOptions
             {
-                var doc = new XmlDocument();
-                doc.Load(stream);
 
-                if (doc.HasChildNodes)
+                Url = url,
+                CancellationToken = cancellationToken
+
+            }, "GET").ConfigureAwait(false))
+            {
+                using (var stream = response.Content)
                 {
-                    var nodes = doc.SelectNodes("Results/Result");
+                    var doc = new XmlDocument();
+                    doc.Load(stream);
 
-                    if (nodes != null)
+                    if (doc.HasChildNodes)
                     {
-                        foreach (XmlNode node in nodes)
-                        {
-                            if (node != null && node.Attributes != null)
-                            {
-                                var urlAttribute = node.Attributes["URL"];
+                        var nodes = doc.SelectNodes("Results/Result");
 
-                                if (urlAttribute != null && !string.IsNullOrEmpty(urlAttribute.Value))
+                        if (nodes != null)
+                        {
+                            foreach (XmlNode node in nodes)
+                            {
+                                if (node != null && node.Attributes != null)
                                 {
-                                    list.Add(new RemoteImageInfo
+                                    var urlAttribute = node.Attributes["URL"];
+
+                                    if (urlAttribute != null && !string.IsNullOrEmpty(urlAttribute.Value))
                                     {
-                                        ProviderName = Name,
-                                        Type = type,
-                                        Url = urlAttribute.Value
-                                    });
+                                        list.Add(new RemoteImageInfo
+                                        {
+                                            ProviderName = Name,
+                                            Type = type,
+                                            Url = urlAttribute.Value
+                                        });
+                                    }
                                 }
                             }
                         }
-                    }
 
+                    }
                 }
             }
 
@@ -334,7 +352,7 @@ namespace GameBrowser.Providers.EmuMovies
 
         }
 
-        public IEnumerable<ImageType> GetSupportedImages(IHasMetadata item)
+        public IEnumerable<ImageType> GetSupportedImages(BaseItem item)
         {
             return new[] { ImageType.Box, ImageType.Disc, ImageType.Screenshot, ImageType.Menu };
         }
@@ -344,7 +362,7 @@ namespace GameBrowser.Providers.EmuMovies
             get { return "Emu Movies"; }
         }
 
-        public bool Supports(IHasMetadata item)
+        public bool Supports(BaseItem item)
         {
             return item is Game;
         }

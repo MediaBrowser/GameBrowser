@@ -72,8 +72,7 @@ namespace GameBrowser.Api
             {
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
-            })
-                .ToList();
+            }.ToList();
 
             var gameNameList = new List<String>();
 
@@ -107,10 +106,7 @@ namespace GameBrowser.Api
             {
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
-            })
-                //.Where(i => i is Game && !string.IsNullOrEmpty(((Game)i).GameSystem) && ((Game)i).GameSystem.Equals("Windows"))
-                .ToList();
-
+            }).ToList();
             
             var gameNameList = new List<String>();
             if (windowsGames.Count > 0)

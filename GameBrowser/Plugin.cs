@@ -13,17 +13,16 @@ using MediaBrowser.Controller.Library;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using System.IO;
+using MediaBrowser.Model.Drawing;
 
 namespace GameBrowser
 {
     /// <summary>
     /// Class Plugin
     /// </summary>
-    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
+    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, IHasThumbImage
     {
-        public readonly SemaphoreSlim TgdbSemiphore = new SemaphoreSlim(5, 5);
-        public readonly SemaphoreSlim EmuMoviesSemiphore = new SemaphoreSlim(5, 5);
-
         private const string EmuMoviesApiKey = @"4D8621EE919A13EB6E89B7EDCA6424FC33D6";
 
         private readonly ILogger _logger;
@@ -78,7 +77,19 @@ namespace GameBrowser
             }
         }
 
+        public Stream GetThumbImage()
+        {
+            var type = GetType();
+            return type.Assembly.GetManifestResourceStream(type.Namespace + ".thumb.png");
+        }
 
+        public ImageFormat ThumbImageFormat
+        {
+            get
+            {
+                return ImageFormat.Png;
+            }
+        }
 
         /// <summary>
         /// Gets the instance.
@@ -167,26 +178,34 @@ namespace GameBrowser
         /// <returns>Task{System.String}.</returns>
         private async Task<string> GetEmuMoviesTokenInternal(CancellationToken cancellationToken)
         {
-            
             var url = String.Format(EmuMoviesUrls.Login, Instance.Configuration.EmuMoviesUsername, Instance.Configuration.EmuMoviesPassword, EmuMoviesApiKey);
 
             try
             {
-                using (var stream = await _httpClient.Get(url, Instance.EmuMoviesSemiphore, cancellationToken).ConfigureAwait(false))
+                using (var response = await _httpClient.SendAsync(new HttpRequestOptions
                 {
-                    var doc = new XmlDocument();
-                    doc.Load(stream);
 
-                    if (doc.HasChildNodes)
+                    Url = url,
+                    CancellationToken = cancellationToken
+
+                }, "GET").ConfigureAwait(false))
+                {
+                    using (var stream = response.Content)
                     {
-                        var resultNode = doc.SelectSingleNode("Results/Result");
+                        var doc = new XmlDocument();
+                        doc.Load(stream);
 
-                        if (resultNode != null && resultNode.Attributes != null)
+                        if (doc.HasChildNodes)
                         {
-                            var sessionId = resultNode.Attributes["Session"].Value;
+                            var resultNode = doc.SelectSingleNode("Results/Result");
 
-                            if (sessionId != null)
-                                return sessionId;
+                            if (resultNode != null && resultNode.Attributes != null)
+                            {
+                                var sessionId = resultNode.Attributes["Session"].Value;
+
+                                if (sessionId != null)
+                                    return sessionId;
+                            }
                         }
                     }
                 }
