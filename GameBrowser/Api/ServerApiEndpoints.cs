@@ -72,7 +72,7 @@ namespace GameBrowser.Api
             {
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
-            }.ToList();
+            }).ToList();
 
             var gameNameList = new List<String>();
 
