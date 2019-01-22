@@ -84,9 +84,7 @@ namespace GameBrowser.Api
                     var parent = item.FindParent<GameSystem>();
                     if (parent.Name == "DOS")
                         gameNameList.Add(item.Name);
-
                 }
-
             }
 
             return new GameQueryResult
@@ -122,9 +120,7 @@ namespace GameBrowser.Api
                     var parent = item.FindParent<GameSystem>();
                     if (parent.Name == "PC")
                         gameNameList.Add(item.Name);
-
                 }
-
             }    
 
             return new GameQueryResult
