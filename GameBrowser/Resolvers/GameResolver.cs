@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Controller.Providers;
+using MediaBrowser.Model.Configuration;
 
 namespace GameBrowser.Resolvers
 {
@@ -40,10 +41,10 @@ namespace GameBrowser.Resolvers
 
         public MultiItemResolverResult ResolveMultiple(Folder parent,
             List<FileSystemMetadata> files,
-            string collectionType,
+            LibraryOptions libraryOptions,
             IDirectoryService directoryService)
         {
-            var result = ResolveMultipleInternal(parent, files, collectionType, directoryService);
+            var result = ResolveMultipleInternal(parent, files, libraryOptions.ContentType, directoryService);
 
             if (result != null)
             {
