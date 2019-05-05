@@ -23,7 +23,7 @@ namespace GameBrowser.Resolvers
             {
                 var collectionType = args.GetCollectionType();
 
-                if (!string.Equals(collectionType, CollectionType.Games, StringComparison.OrdinalIgnoreCase))
+                if (!collectionType.AsSpan().Equals(CollectionType.Games.Span, StringComparison.OrdinalIgnoreCase))
                 {
                     return null;
                 }

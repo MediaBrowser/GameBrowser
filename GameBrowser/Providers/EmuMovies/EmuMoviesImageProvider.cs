@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Net;
+using MediaBrowser.Model.Configuration;
 
 namespace GameBrowser.Providers.EmuMovies
 {
@@ -24,7 +25,7 @@ namespace GameBrowser.Providers.EmuMovies
             _fileSystem = fileSystem;
         }
 
-        public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
+        public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, LibraryOptions libraryOptions, CancellationToken cancellationToken)
         {
             var list = new List<RemoteImageInfo>();
 

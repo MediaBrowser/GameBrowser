@@ -62,7 +62,7 @@ namespace GameBrowser.Resolvers
             string collectionType,
             IDirectoryService directoryService)
         {
-            if (string.Equals(collectionType, CollectionType.Games, StringComparison.OrdinalIgnoreCase))
+            if (collectionType.AsSpan().Equals(CollectionType.Games.Span, StringComparison.OrdinalIgnoreCase))
             {
                 return ResolveMultiple<Game>(parent, files, directoryService, collectionType);
             }
