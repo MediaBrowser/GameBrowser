@@ -9,7 +9,7 @@ namespace GameBrowser.Resolvers
     {
         public static string AttemptGetGamePlatformTypeFromPath(IFileSystem fileSystem, string path)
         {
-            var system = Plugin.Instance.Configuration.GameSystems.FirstOrDefault(s => fileSystem.ContainsSubPath(s.Path, path) || string.Equals(s.Path, path, StringComparison.OrdinalIgnoreCase));
+            var system = Plugin.Instance.Configuration.GameSystems.FirstOrDefault(s => fileSystem.ContainsSubPath(s.Path.AsSpan(), path.AsSpan()) || string.Equals(s.Path, path, StringComparison.OrdinalIgnoreCase));
 
             return system != null ? system.ConsoleType : null;
         }
