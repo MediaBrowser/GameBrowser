@@ -114,7 +114,7 @@ namespace GameBrowser.Api
                 {
                     var parent = item.FindParent<GameSystem>();
 
-                    //if (parent.Name == "PC")
+
                     if (parent != null && parent.Name == "PC")
                         gameNameList.Add(item.Name);
                 }
