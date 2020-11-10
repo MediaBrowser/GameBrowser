@@ -81,7 +81,7 @@ namespace GameBrowser.Api
                 foreach (var item in dosGames)
                 {
                     var parent = item.FindParent<GameSystem>();
-                    if (parent.Name == "DOS")
+                    if (parent != null && parent.Name == "DOS")
                         gameNameList.Add(item.Name);
                 }
             }
@@ -107,18 +107,18 @@ namespace GameBrowser.Api
                 IncludeItemTypes = new[] { typeof(Game).Name },
                 OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
             }).ToList();
-            
             var gameNameList = new List<String>();
             if (windowsGames.Count > 0)
             {
                 foreach (var item in windowsGames)
                 {
                     var parent = item.FindParent<GameSystem>();
-                    if (parent.Name == "PC")
+
+
+                    if (parent != null && parent.Name == "PC")
                         gameNameList.Add(item.Name);
                 }
-            }    
-
+            }
             return new GameQueryResult
             {
                 TotalCount = gameNameList.Count,
