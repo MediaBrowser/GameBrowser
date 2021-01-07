@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;</TargetFrameworks>
-    <AssemblyVersion>3.2.5.0</AssemblyVersion>
-    <FileVersion>3.2.5.0</FileVersion>
+    <AssemblyVersion>3.2.6.0</AssemblyVersion>
+    <FileVersion>3.2.6.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="mediabrowser.server.core" Version="4.2.0.6-beta4" />
+    <PackageReference Include="mediabrowser.server.core" Version="4.4.2" />
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
