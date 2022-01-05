@@ -257,6 +257,9 @@ namespace GameBrowser.Resolvers
                 case "Nintendo":
                     return new[] { ".nes", ".zip" };
 
+                case "Nintendo Switch":
+                    return new[] { ".xci", ".nsp" };
+
                 case "Game Boy":
                     return new[] { ".gb", ".zip" };
 
@@ -294,7 +297,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".bin", ".img" };
 
                 case "Dreamcast":
-                    return new[] { ".chd", ".gdi", ".cdi" };
+                    return new[] { ".chd", ".gdi", ".cdi", ".bin", ".cue" };
 
                 case "Game Gear":
                     return new[] { ".gg", ".zip" };

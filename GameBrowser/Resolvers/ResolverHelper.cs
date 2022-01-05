@@ -83,6 +83,9 @@ namespace GameBrowser.Resolvers
                 case "Nintendo":
                     return "Nintendo";
 
+                case "Nintendo Switch":
+                    return "NintendoSwitch";
+
                 case "Game Boy":
                     return "NintendoGameBoy";
 
