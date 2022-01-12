@@ -235,6 +235,11 @@ namespace GameBrowser.Providers.EmuMovies
 
                     break;
 
+                case "Nintendo Switch":
+                    emuMoviesPlatform = "Nintendo_Switch";
+
+                    break;
+
                 case "Game Boy":
                     emuMoviesPlatform = "Nintendo_Game_Boy";
 
