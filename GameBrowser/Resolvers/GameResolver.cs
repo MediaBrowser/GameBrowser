@@ -21,11 +21,13 @@ namespace GameBrowser.Resolvers
     {
         private readonly ILogger _logger;
         private readonly IFileSystem _fileSystem;
+        private readonly ILibraryManager _libraryManager;
 
-        public GameResolver(ILogger logger, IFileSystem fileSystem)
+        public GameResolver(ILogger logger, IFileSystem fileSystem, ILibraryManager libraryManager)
         {
             _logger = logger;
             _fileSystem = fileSystem;
+            _libraryManager = libraryManager;
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace GameBrowser.Resolvers
             LibraryOptions libraryOptions,
             IDirectoryService directoryService)
         {
-            var result = ResolveMultipleInternal(parent, files, libraryOptions.ContentType, directoryService);
+            var result = ResolveMultipleInternal(parent, files, libraryOptions.ContentType, libraryOptions, directoryService);
 
             if (result != null)
             {
@@ -60,17 +62,40 @@ namespace GameBrowser.Resolvers
         private MultiItemResolverResult ResolveMultipleInternal(Folder parent,
             List<FileSystemMetadata> files,
             string collectionType,
+            LibraryOptions libraryOptions,
             IDirectoryService directoryService)
         {
             if (collectionType.AsSpan().Equals(CollectionType.Games.Span, StringComparison.OrdinalIgnoreCase))
             {
-                return ResolveMultiple<Game>(parent, files, directoryService, collectionType);
+                return ResolveMultiple<Game>(parent, files, directoryService, libraryOptions, false, false, true);
             }
 
             return null;
         }
 
-        private MultiItemResolverResult ResolveMultiple<T>(Folder parent, IEnumerable<FileSystemMetadata> fileSystemEntries, IDirectoryService directoryService, string collectionType)
+        private bool LeaveFolderInLeftOverFiles(FileSystemMetadata folder)
+        {
+            var filename = folder.Name;
+
+            if (BaseItem.ExtrasSubFolders.ContainsKey(filename))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ContainsFile(List<Game> result, FileSystemMetadata file)
+        {
+            return result.Any(i => ContainsFile(i, file));
+        }
+
+        private bool ContainsFile(Game result, FileSystemMetadata file)
+        {
+            return string.Equals(result.Path, file.FullName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private MultiItemResolverResult ResolveMultiple<T>(Folder parent, IEnumerable<FileSystemMetadata> fileSystemEntries, IDirectoryService directoryService, LibraryOptions libraryOptions, bool parseName, bool enforceIgnore, bool checkSubFolders)
             where T : Game, new()
         {
             var gameSystem = parent as GameSystem ?? parent.FindParent<GameSystem>();
@@ -81,8 +106,11 @@ namespace GameBrowser.Resolvers
             }
 
             var files = new List<FileSystemMetadata>();
-            var items = new List<BaseItem>();
+            var games = new List<BaseItem>();
             var leftOver = new List<FileSystemMetadata>();
+
+            var setIsInMixedFolder = false;
+            var isInMixedFolderValue = false;
 
             // Loop through each child file/folder and see if we find a video
             foreach (var child in fileSystemEntries)
@@ -91,36 +119,58 @@ namespace GameBrowser.Resolvers
                 {
                     leftOver.Add(child);
                 }
-                else if (IsIgnored(child.Name))
-                {
-
-                }
                 else
                 {
-                    var game = ResolveGame(child, gameSystem);
-                    if (game != null)
+                    if (!enforceIgnore || !_libraryManager.IgnoreFile(child, parent, libraryOptions))
                     {
-                        items.Add(game);
-                    }
-                    else
-                    {
-                        leftOver.Add(child);
+                        files.Add(child);
                     }
                 }
             }
 
+            var resolverResult = files.Select(i => ResolveGame(i, gameSystem)).Where(i => i != null).ToList();
+
             var result = new MultiItemResolverResult
             {
-                ExtraFiles = leftOver,
-                Items = items
+                ExtraFiles = leftOver
             };
 
-            return result;
-        }
+            foreach (var game in resolverResult)
+            {
+                if (parent != null && parent.IsTopParent)
+                {
+                    isInMixedFolderValue = true;
+                }
 
-        private bool IsIgnored(string filename)
-        {
-            return false;
+                if (isInMixedFolderValue)
+                {
+                    setIsInMixedFolder = true;
+                }
+
+                result.Items.Add(game);
+            }
+
+            if (setIsInMixedFolder)
+            {
+                foreach (var item in result.Items)
+                {
+                    item.IsInMixedFolder = isInMixedFolderValue;
+                }
+            }
+
+            // do this after to prevent setting IsInMixedFolder
+            result.Items.InsertRange(0, games);
+
+            result.IsInMixedFolderSet = setIsInMixedFolder;
+
+            if (result.Items.Count == 1 || (setIsInMixedFolder && !isInMixedFolderValue))
+            {
+                result.ExtraFiles = result.ExtraFiles.Where(LeaveFolderInLeftOverFiles).ToList();
+            }
+
+            result.ExtraFiles.AddRange(files.Where(i => !ContainsFile(resolverResult, i)));
+
+            return result;
         }
 
         private Game ResolveGame(FileSystemMetadata file, GameSystem gameSystem)
@@ -171,25 +221,15 @@ namespace GameBrowser.Resolvers
                     Container = fileExtension.TrimStart('.')
                 };
 
-                //if (gameFiles.Count > 1)
-                //{
-                //    game.MultiPartGameFiles = gameFiles.Select(i => i.FullName).ToArray();
-                //    game.IsMultiPart = true;
-                //}
-
                 return game;
             }
 
             return null;
         }
 
-        /// <summary>
-        /// Resolves the specified args.
-        /// </summary>
-        /// <param name="args">The args.</param>
-        /// <returns>Game.</returns>
         protected override Game Resolve(ItemResolveArgs args)
         {
+            // handled by multi-item resolving
             return null;
         }
 
