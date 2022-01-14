@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameBrowser.Api.Querying;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Net;
@@ -16,16 +15,6 @@ namespace GameBrowser.Api
     public class GetConfiguredPlatforms
     {
 
-    }
-
-    [Route("/GameBrowser/Games/Dos", "GET")]
-    public class GetDosGames
-    {
-    }
-
-    [Route("/GameBrowser/Games/Windows", "GET")]
-    public class GetWindowsGames
-    {
     }
 
     /// <summary>
@@ -57,73 +46,6 @@ namespace GameBrowser.Api
             _logger.Debug("GetConfiguredPlatforms request received");
 
             return Plugin.Instance.Configuration.GameSystems;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public object Get(GetDosGames request)
-        {
-            _logger.Debug("GetDosGames request received");
-
-            var dosGames = _libraryManager.GetItemList(new InternalItemsQuery
-            {
-                IncludeItemTypes = new[] { typeof(Game).Name },
-                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
-            }).ToList();
-
-            var gameNameList = new List<String>();
-
-            if (dosGames.Count > 0)
-            {
-                foreach (var item in dosGames)
-                {
-                    var parent = item.FindParent<GameSystem>();
-                    if (parent.Name == "DOS")
-                        gameNameList.Add(item.Name);
-                }
-            }
-
-            return new GameQueryResult
-            {
-                TotalCount = gameNameList.Count,
-                GameTitles = gameNameList.ToArray()
-            };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public object Get(GetWindowsGames request)
-        {
-            _logger.Debug("GetWindowsGames request received");
-
-            var windowsGames = _libraryManager.GetItemList(new InternalItemsQuery
-            {
-                IncludeItemTypes = new[] { typeof(Game).Name },
-                OrderBy = new[] { new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending) }
-            }).ToList();
-            
-            var gameNameList = new List<String>();
-            if (windowsGames.Count > 0)
-            {
-                foreach (var item in windowsGames)
-                {
-                    var parent = item.FindParent<GameSystem>();
-                    if (parent.Name == "PC")
-                        gameNameList.Add(item.Name);
-                }
-            }    
-
-            return new GameQueryResult
-            {
-                TotalCount = gameNameList.Count,
-                GameTitles = gameNameList.ToArray()
-            };
         }
     }
 }
