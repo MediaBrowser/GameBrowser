@@ -280,7 +280,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".disc", ".iso" };
 
                 case "Xbox 360":
-                    return new[] { ".disc" };
+                    return new[] { ".disc", ".iso" };
 
                 case "Xbox One":
                     return new[] { ".disc" };
@@ -293,6 +293,9 @@ namespace GameBrowser.Resolvers
 
                 case "Nintendo DS":
                     return new[] { ".nds", ".zip" };
+
+                case "Nintendo 3DS":
+                    return new[] { ".3ds", ".cia" };
 
                 case "Nintendo":
                     return new[] { ".nes", ".zip" };
@@ -310,7 +313,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".gbc", ".zip" };
 
                 case "Gamecube":
-                    return new[] { ".iso", ".bin", ".img", ".gcm", ".gcz" };
+                    return new[] { ".iso", ".bin", ".img", ".gcm", ".gcz", ".rvz" };
 
                 case "Super Nintendo":
                     return new[] { ".smc", ".zip", ".fam", ".rom", ".sfc", ".fig" };
@@ -319,10 +322,10 @@ namespace GameBrowser.Resolvers
                     return new[] { ".vb" };
 
                 case "Nintendo Wii":
-                    return new[] { ".iso", ".dol", ".ciso", ".wbfs", ".wad", ".gcz" };
+                    return new[] { ".iso", ".dol", ".ciso", ".wbfs", ".wad", ".gcz", ".rvz" };
 
                 case "Nintendo Wii U":
-                    return new[] { ".disc", ".wud" };
+                    return new[] { ".disc", ".wud", ".wux" };
 
                 case "DOS":
                     return new[] { ".gbdos", ".disc" };
@@ -334,7 +337,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".bin", ".img", ".zip", ".32x" };
 
                 case "Sega CD":
-                    return new[] { ".iso", ".bin", ".img" };
+                    return new[] { ".iso", ".bin", ".img", ".chd" };
 
                 case "Dreamcast":
                     return new[] { ".chd", ".gdi", ".cdi", ".bin", ".cue" };
@@ -352,13 +355,13 @@ namespace GameBrowser.Resolvers
                     return new[] { ".smd", ".zip", ".md" };
 
                 case "Sega Saturn":
-                    return new[] { ".iso", ".bin", ".img" };
+                    return new[] { ".iso", ".bin", ".img", ".chd" };
 
                 case "Sony Playstation":
-                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp" };
+                    return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp", ".chd" };
 
                 case "PS2":
-                    return new[] { ".iso", ".bin" };
+                    return new[] { ".iso", ".bin", ".chd" };
 
                 case "PS3":
                     return new[] { ".disc" };
