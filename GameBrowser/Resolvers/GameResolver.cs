@@ -17,223 +17,96 @@ namespace GameBrowser.Resolvers
     /// <summary>
     /// Class GameResolver
     /// </summary>
-    public class GameResolver : ItemResolver<Game>, IMultiItemResolver
+    public class GameResolver : BaseItemResolver<Game>
     {
-        private readonly ILogger _logger;
-        private readonly IFileSystem _fileSystem;
-        private readonly ILibraryManager _libraryManager;
+        private IFileSystem _fileSystem;
 
-        public GameResolver(ILogger logger, IFileSystem fileSystem, ILibraryManager libraryManager)
+        public GameResolver(ILibraryManager libraryManager, ILogger logger, IFileSystem fileSystem)
+            : base(libraryManager, logger)
         {
-            _logger = logger;
             _fileSystem = fileSystem;
-            _libraryManager = libraryManager;
         }
 
-        /// <summary>
-        /// Run before any core resolvers
-        /// </summary>
-        public override ResolverPriority Priority
+        protected override bool IsSupportedFile(FileSystemMetadata file, LibraryOptions libraryOptions)
         {
-            get
+            if (!file.IsDirectory)
             {
-                return ResolverPriority.First;
-            }
-        }
+                var path = file.FullName;
 
-        public MultiItemResolverResult ResolveMultiple(Folder parent,
-            List<FileSystemMetadata> files,
-            LibraryOptions libraryOptions,
-            IDirectoryService directoryService)
-        {
-            var result = ResolveMultipleInternal(parent, files, libraryOptions.ContentType, libraryOptions, directoryService);
+                var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, path);
 
-            if (result != null)
-            {
-                foreach (var item in result.Items)
+                if (string.IsNullOrEmpty(platform)) return false;
+
+                var extension = file.Extension;
+
+                // For MAME we will allow all games in the same dir
+                if (string.Equals(platform, "Arcade", StringComparison.OrdinalIgnoreCase))
                 {
-                    SetInitialItemValues((Game)item, null);
-                }
-            }
+                    if (string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) || string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // ignore zips that are bios roms.
+                        if (MameUtils.IsBiosRom(path)) return false;
 
-            return result;
-        }
-
-        private MultiItemResolverResult ResolveMultipleInternal(Folder parent,
-            List<FileSystemMetadata> files,
-            string collectionType,
-            LibraryOptions libraryOptions,
-            IDirectoryService directoryService)
-        {
-            if (collectionType.AsSpan().Equals(CollectionType.Games.Span, StringComparison.OrdinalIgnoreCase))
-            {
-                return ResolveMultiple<Game>(parent, files, directoryService, libraryOptions, false, false, true);
-            }
-
-            return null;
-        }
-
-        private bool LeaveFolderInLeftOverFiles(FileSystemMetadata folder)
-        {
-            var filename = folder.Name;
-
-            if (BaseItem.ExtrasSubFolders.ContainsKey(filename))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool ContainsFile(List<Game> result, FileSystemMetadata file)
-        {
-            return result.Any(i => ContainsFile(i, file));
-        }
-
-        private bool ContainsFile(Game result, FileSystemMetadata file)
-        {
-            return string.Equals(result.Path, file.FullName, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private MultiItemResolverResult ResolveMultiple<T>(Folder parent, IEnumerable<FileSystemMetadata> fileSystemEntries, IDirectoryService directoryService, LibraryOptions libraryOptions, bool parseName, bool enforceIgnore, bool checkSubFolders)
-            where T : Game, new()
-        {
-            var gameSystem = parent as GameSystem ?? parent.FindParent<GameSystem>();
-
-            if (gameSystem == null)
-            {
-                return null;
-            }
-
-            var files = new List<FileSystemMetadata>();
-            var games = new List<BaseItem>();
-            var leftOver = new List<FileSystemMetadata>();
-
-            var setIsInMixedFolder = false;
-            var isInMixedFolderValue = false;
-
-            // Loop through each child file/folder and see if we find a video
-            foreach (var child in fileSystemEntries)
-            {
-                if (child.IsDirectory)
-                {
-                    leftOver.Add(child);
+                        return true;
+                    }
                 }
                 else
                 {
-                    if (!enforceIgnore || !_libraryManager.IgnoreFile(child, parent, libraryOptions))
+                    var validExtensions = GetExtensions(platform);
+
+                    if (!validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                     {
-                        files.Add(child);
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
+        protected override void OnItemFound<T>(T item, Folder parent)
+        {
+            base.OnItemFound(item, parent);
+
+            var gameSystem = parent as GameSystem ?? parent.FindParent<GameSystem>();
+
+            if (gameSystem != null)
+            {
+                item.Album = gameSystem.Name;
+                item.AlbumId = gameSystem.InternalId;
+            }
+
+            var path = item.Path;
+            var extension = Path.GetExtension(path);
+
+            if (string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) || string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase))
+            {
+                var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, path);
+                if (string.Equals(platform, "Arcade", StringComparison.OrdinalIgnoreCase))
+                {
+                    var name = MameUtils.GetFullNameFromPath(path, Logger);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        item.Name = name;
                     }
                 }
             }
 
-            var resolverResult = files.Select(i => ResolveGame(i, gameSystem)).Where(i => i != null).ToList();
-
-            var result = new MultiItemResolverResult
-            {
-                ExtraFiles = leftOver
-            };
-
-            foreach (var game in resolverResult)
-            {
-                if (parent != null && parent.IsTopParent)
-                {
-                    isInMixedFolderValue = true;
-                }
-
-                if (isInMixedFolderValue)
-                {
-                    setIsInMixedFolder = true;
-                }
-
-                result.Items.Add(game);
-            }
-
-            if (setIsInMixedFolder)
-            {
-                foreach (var item in result.Items)
-                {
-                    item.IsInMixedFolder = isInMixedFolderValue;
-                }
-            }
-
-            // do this after to prevent setting IsInMixedFolder
-            result.Items.InsertRange(0, games);
-
-            result.IsInMixedFolderSet = setIsInMixedFolder;
-
-            if (result.Items.Count == 1 || (setIsInMixedFolder && !isInMixedFolderValue))
-            {
-                result.ExtraFiles = result.ExtraFiles.Where(LeaveFolderInLeftOverFiles).ToList();
-            }
-
-            result.ExtraFiles.AddRange(files.Where(i => !ContainsFile(resolverResult, i)));
-
-            return result;
+            item.Container = extension.TrimStart('.');
         }
 
-        private Game ResolveGame(FileSystemMetadata file, GameSystem gameSystem)
+        protected override bool SupportsLibrary(LibraryOptions libraryOptions)
         {
-            var path = file.FullName;
+            var contentType = libraryOptions.ContentType;
 
-            var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, path);
-
-            if (string.IsNullOrEmpty(platform)) return null;
-
-            // For MAME we will allow all games in the same dir
-            if (string.Equals(platform, "Arcade", StringComparison.OrdinalIgnoreCase))
-            {
-                var extension = Path.GetExtension(path);
-
-                if (string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) || string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase))
-                {
-                    // ignore zips that are bios roms.
-                    if (MameUtils.IsBiosRom(path)) return null;
-
-                    var game = new Game
-                    {
-                        Name = MameUtils.GetFullNameFromPath(path, _logger),
-                        Path = path,
-                        IsInMixedFolder = true,
-                        Album = gameSystem.Name,
-                        AlbumId = gameSystem.InternalId,
-                        Container = extension.TrimStart('.')
-                    };
-                    return game;
-                }
-            }
-            else
-            {
-                var validExtensions = GetExtensions(platform);
-                var fileExtension = Path.GetExtension(path);
-
-                if (!validExtensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
-                {
-                    return null;
-                }
-
-                var game = new Game
-                {
-                    Path = path,
-                    Album = gameSystem.Name,
-                    AlbumId = gameSystem.InternalId,
-                    Container = fileExtension.TrimStart('.')
-                };
-
-                return game;
-            }
-
-            return null;
+            return contentType.AsSpan().Equals(CollectionType.Games.Span, StringComparison.OrdinalIgnoreCase);
         }
 
-        protected override Game Resolve(ItemResolveArgs args)
-        {
-            // handled by multi-item resolving
-            return null;
-        }
-
-        private IEnumerable<string> GetExtensions(string consoleType)
+        private string[] GetExtensions(string consoleType)
         {
             switch (consoleType)
             {

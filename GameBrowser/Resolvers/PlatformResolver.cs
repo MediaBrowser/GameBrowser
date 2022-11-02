@@ -12,7 +12,7 @@ namespace GameBrowser.Resolvers
     /// <summary>
     /// Class ConsoleFolderResolver
     /// </summary>
-    public class PlatformResolver : ItemResolver<GameSystem>
+    public class PlatformResolver : IItemResolver
     {
         private readonly ILogger _logger;
         private readonly IFileSystem _fileSystem;
@@ -25,12 +25,9 @@ namespace GameBrowser.Resolvers
             _libraryManager = libraryManager;
         }
 
-        /// <summary>
-        /// Resolves the specified args.
-        /// </summary>
-        /// <param name="args">The args.</param>
-        /// <returns>ConsoleFolder.</returns>
-        protected override GameSystem Resolve(ItemResolveArgs args)
+        public ResolverPriority Priority => ResolverPriority.First;
+
+        public BaseItem ResolvePath(ItemResolveArgs args)
         {
             if (args.IsDirectory)
             {
