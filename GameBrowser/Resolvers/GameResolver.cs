@@ -198,7 +198,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".dol", ".ciso", ".wbfs", ".wad", ".gcz", ".rvz" };
 
                 case "Nintendo Wii U":
-                    return new[] { ".disc", ".wud", ".wux" };
+                    return new[] { ".disc", ".wud", ".wux", ".wua" };
 
                 case "DOS":
                     return new[] { ".gbdos", ".disc" };
@@ -244,6 +244,9 @@ namespace GameBrowser.Resolvers
 
                 case "PSP":
                     return new[] { ".iso", ".cso" };
+
+                case "PSVita":
+                    return new[] { ".psv" };
 
                 case "TurboGrafx 16":
                     return new[] { ".pce", ".zip" };
