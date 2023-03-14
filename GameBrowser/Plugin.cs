@@ -22,9 +22,6 @@ namespace GameBrowser
     /// </summary>
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, IHasThumbImage
     {
-        private readonly ILogger _logger;
-        private readonly IHttpClient _httpClient;
-
         /// <summary>
         /// Gets the name of the plugin
         /// </summary>
@@ -41,7 +38,14 @@ namespace GameBrowser
                 new PluginPageInfo
                 {
                     Name = "GameBrowser",
-                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.configPage.html"
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.configPage.html",
+                    EnableInMainMenu = true,
+                    MenuIcon = "sports_esports"
+                },
+                new PluginPageInfo
+                {
+                    Name = "gamebrowserjs",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.configPage.js"
                 }
             };
         }
@@ -91,12 +95,10 @@ namespace GameBrowser
         /// <summary>
         /// Initializes a new instance of the <see cref="Plugin" /> class.
         /// </summary>
-        public Plugin(IApplicationPaths appPaths, IXmlSerializer xmlSerializer, ILibraryManager libraryManager, IUserManager userManager, ILogManager logManager, IHttpClient httpClient)
+        public Plugin(IApplicationPaths appPaths, IXmlSerializer xmlSerializer)
             : base(appPaths, xmlSerializer)
         {
             Instance = this;
-            _logger = logManager.GetLogger("GameBrowser");
-            _httpClient = httpClient;
         }
     }
 }
