@@ -11,6 +11,7 @@ using System.Linq;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Configuration;
+using MediaBrowser.Model.Dto;
 
 namespace GameBrowser.Resolvers
 {
@@ -33,14 +34,14 @@ namespace GameBrowser.Resolvers
             {
                 var path = file.FullName;
 
-                var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, path);
+                var platform = ResolverHelper.GetGamePlatformFromPath(_fileSystem, path);
 
-                if (string.IsNullOrEmpty(platform)) return false;
+                if (platform == null) return false;
 
                 var extension = file.Extension;
 
                 // For MAME we will allow all games in the same dir
-                if (string.Equals(platform, "Arcade", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(platform.ConsoleType, "Arcade", StringComparison.OrdinalIgnoreCase))
                 {
                     if (string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) || string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase))
                     {
@@ -52,7 +53,7 @@ namespace GameBrowser.Resolvers
                 }
                 else
                 {
-                    var validExtensions = GetExtensions(platform);
+                    var validExtensions = GetExtensions(platform.ConsoleType);
 
                     if (!validExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                     {
@@ -72,21 +73,22 @@ namespace GameBrowser.Resolvers
         {
             base.OnItemFound(item, parent);
 
-            var gameSystem = parent as GameSystem ?? parent.FindParent<GameSystem>();
-
-            if (gameSystem != null)
-            {
-                item.Album = gameSystem.Name;
-                item.AlbumId = gameSystem.InternalId;
-            }
-
             var path = item.Path;
+            var platform = ResolverHelper.GetGamePlatformFromPath(_fileSystem, path);
+
+            var gameSystem = new LinkedItemInfo
+            {
+                Name = Path.GetFileName(platform.Path)
+            };
+            gameSystem.ProviderIds["console"] = platform.ConsoleType;
+
+            item.SetAlbumItem(gameSystem);
+
             var extension = Path.GetExtension(path);
 
             if (string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) || string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase))
             {
-                var platform = ResolverHelper.AttemptGetGamePlatformTypeFromPath(_fileSystem, path);
-                if (string.Equals(platform, "Arcade", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(platform.ConsoleType, "Arcade", StringComparison.OrdinalIgnoreCase))
                 {
                     var name = MameUtils.GetFullNameFromPath(path, Logger);
                     if (!string.IsNullOrEmpty(name))

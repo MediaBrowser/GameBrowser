@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Model.Plugins;
+﻿using System;
+using MediaBrowser.Model.Plugins;
 
 namespace GameBrowser.Configuration
 {
@@ -11,15 +12,7 @@ namespace GameBrowser.Configuration
         /// Gets or sets the game systems.
         /// </summary>
         /// <value>The game systems.</value>
-        public ConsoleFolderConfiguration[] GameSystems { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PluginConfiguration" /> class.
-        /// </summary>
-        public PluginConfiguration()
-        {
-            GameSystems = new ConsoleFolderConfiguration[] { };
-        }
+        public ConsoleFolderConfiguration[] GameSystems { get; set; } = Array.Empty<ConsoleFolderConfiguration>();
     }
 
     /// <summary>
