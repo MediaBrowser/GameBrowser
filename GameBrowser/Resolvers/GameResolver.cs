@@ -76,13 +76,20 @@ namespace GameBrowser.Resolvers
             var path = item.Path;
             var platform = ResolverHelper.GetGamePlatformFromPath(_fileSystem, path);
 
+            if (platform == null)
+            {
+                Logger.Warn("Platform not found for game {0}", path);
+                return;
+            }
+
             var gameSystem = new LinkedItemInfo
             {
-                Name = Path.GetFileName(platform.Path)
+                Name = Path.GetFileName(platform.Path),
+                ProviderIds = new ProviderIdDictionary()
             };
             gameSystem.ProviderIds["console"] = platform.ConsoleType;
 
-            item.SetAlbumItem(gameSystem);
+            item.AlbumItem = gameSystem;
 
             var extension = Path.GetExtension(path);
 
@@ -98,7 +105,10 @@ namespace GameBrowser.Resolvers
                 }
             }
 
-            item.Container = extension.TrimStart('.');
+            if (!string.IsNullOrEmpty(extension))
+            {
+                item.Container = extension.TrimStart('.');
+            }
         }
 
         protected override bool SupportsLibrary(LibraryOptions libraryOptions)
