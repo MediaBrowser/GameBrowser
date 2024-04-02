@@ -34,7 +34,7 @@ namespace GameBrowser.Resolvers
             {
                 var path = file.FullName;
 
-                var platform = ResolverHelper.GetGamePlatformFromPath(_fileSystem, path);
+                var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
 
                 if (platform == null) return false;
 
@@ -74,7 +74,7 @@ namespace GameBrowser.Resolvers
             base.OnItemFound(item, parent);
 
             var path = item.Path;
-            var platform = ResolverHelper.GetGamePlatformFromPath(_fileSystem, path);
+            var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
 
             if (platform == null)
             {
