@@ -165,7 +165,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".disc", ".iso" };
 
                 case "Xbox 360":
-                    return new[] { ".disc", ".iso" };
+                    return new[] { ".disc", ".iso", ".zar" };
 
                 case "Xbox One":
                     return new[] { ".disc" };
@@ -246,7 +246,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".iso", ".cue", ".img", ".ps1", ".pbp", ".chd" };
 
                 case "PS2":
-                    return new[] { ".iso", ".bin", ".chd" };
+                    return new[] { ".iso", ".bin", ".cso", ".chd" };
 
                 case "PS3":
                     return new[] { ".disc" };
@@ -255,7 +255,7 @@ namespace GameBrowser.Resolvers
                     return new[] { ".disc" };
 
                 case "PSP":
-                    return new[] { ".iso", ".cso" };
+                    return new[] { ".iso", ".cso", ".chd" };
 
                 case "PSVita":
                     return new[] { ".psv" };
