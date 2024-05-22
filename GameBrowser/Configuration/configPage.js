@@ -139,6 +139,7 @@
                                                 <option value="PS3">Sony Playstation 3</option>\
                                                 <option value="PS4">Sony Playstation 4</option>\
                                                 <option value="PSP">Sony Playstation Portable</option>\
+                                                <option value="PSVita">Sony Playstation Vita</option>\
                                                 <option value="TurboGrafx 16">TurboGrafx-16</option>\
                                                 <option value="TurboGrafx CD">TurboGrafx CD</option>\
                                                 <option value="Windows">Windows</option>\
