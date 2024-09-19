@@ -15,16 +15,35 @@ using MediaBrowser.Model.Logging;
 
 namespace GameBrowser.Resolvers
 {
-    public class GameSystemProvider : ICustomMetadataProvider<Game>, IForcedProvider
+    public class GameProvider : ICustomMetadataProvider<Game>, IForcedProvider, IHasItemChangeMonitor
     {
-        public string Name => "Game System Provider";
+        public string Name => "Game Provider";
 
         private IFileSystem _fileSystem;
+        private ILogger _logger;
 
-        public GameSystemProvider(IFileSystem fileSystem)
+        public GameProvider(IFileSystem fileSystem, ILogger logger)
         {
             _fileSystem = fileSystem;
+            _logger = logger;
         }
+        public bool HasChanged(BaseItem item, LibraryOptions libraryOptions, IDirectoryService directoryService)
+        {
+            var path = item.Path;
+
+            if (!string.IsNullOrEmpty(path) && item.IsFileProtocol && !item.IsResolvedToFolder)
+            {
+                var file = directoryService.GetFile(path);
+                if (file != null && item.HasDateModifiedChanged(file.LastWriteTimeUtc))
+                {
+                    _logger.Debug("Refreshing {0} due to date modified change {1} - {2}.", item.Path, item.DateModified.ToUnixTimeSeconds(), file.LastWriteTimeUtc.ToUnixTimeSeconds());
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         public Task<ItemUpdateType> FetchAsync(MetadataResult<Game> itemResult, MetadataRefreshOptions options, LibraryOptions libraryOptions, CancellationToken cancellationToken)
         {
@@ -32,10 +51,10 @@ namespace GameBrowser.Resolvers
 
             var item = itemResult.Item;
 
+            var path = item.Path;
+
             if (string.IsNullOrEmpty(item.Album))
             {
-                var path = item.Path;
-
                 if (!string.IsNullOrEmpty(path))
                 {
                     var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
@@ -56,6 +75,20 @@ namespace GameBrowser.Resolvers
                     item.AlbumItem = gameSystem;
 
                     updateType = ItemUpdateType.MetadataImport;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(path) && item.IsFileProtocol && !item.IsResolvedToFolder)
+            {
+                var file = options.DirectoryService.GetFile(path);
+                if (file != null)
+                {
+                    item.Size = file.Length;
+
+                    if (item.HasDateModifiedChanged(file.LastWriteTimeUtc))
+                    {
+                        item.DateModified = file.LastWriteTimeUtc;
+                    }
                 }
             }
 
