@@ -45,7 +45,7 @@ namespace GameBrowser.Resolvers
         }
 
 
-        public Task<ItemUpdateType> FetchAsync(MetadataResult<Game> itemResult, MetadataRefreshOptions options, LibraryOptions libraryOptions, CancellationToken cancellationToken)
+        public Task<ItemUpdateType> FetchAsync(MetadataResult<Game> itemResult, MetadataRefreshOptions options, BaseItem[] collectionFolders, LibraryOptions libraryOptions, CancellationToken cancellationToken)
         {
             var updateType = ItemUpdateType.None;
 

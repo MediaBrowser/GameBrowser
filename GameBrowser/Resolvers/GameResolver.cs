@@ -28,7 +28,7 @@ namespace GameBrowser.Resolvers
             _fileSystem = fileSystem;
         }
 
-        protected override bool IsSupportedFile(FileSystemMetadata file, LibraryOptions libraryOptions)
+        protected override bool IsSupportedFile(FileSystemMetadata file, BaseItem parent, IDirectoryService directoryService, LibraryOptions libraryOptions)
         {
             if (!file.IsDirectory)
             {
