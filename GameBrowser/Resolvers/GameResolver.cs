@@ -1,17 +1,18 @@
-﻿using GameBrowser.Library.Utils;
+﻿using GameBrowser.Configuration;
+using GameBrowser.Library.Utils;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
+using MediaBrowser.Controller.Providers;
 using MediaBrowser.Controller.Resolvers;
+using MediaBrowser.Model.Configuration;
+using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MediaBrowser.Model.IO;
-using MediaBrowser.Controller.Providers;
-using MediaBrowser.Model.Configuration;
-using MediaBrowser.Model.Dto;
 
 namespace GameBrowser.Resolvers
 {
@@ -28,13 +29,18 @@ namespace GameBrowser.Resolvers
             _fileSystem = fileSystem;
         }
 
+        public static ConsoleFolderConfiguration GetGameSystemFromPath(IFileSystem fileSystem, string path)
+        {
+            return Plugin.Instance.Configuration.GameSystems.FirstOrDefault(s => fileSystem.ContainsSubPath(s.Path.AsSpan(), path.AsSpan()) || string.Equals(s.Path, path, StringComparison.OrdinalIgnoreCase));
+        }
+
         protected override bool IsSupportedFile(FileSystemMetadata file, BaseItem parent, IDirectoryService directoryService, LibraryOptions libraryOptions)
         {
             if (!file.IsDirectory)
             {
                 var path = file.FullName;
 
-                var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
+                var platform = GetGameSystemFromPath(_fileSystem, path);
 
                 if (platform == null) return false;
 
@@ -69,12 +75,12 @@ namespace GameBrowser.Resolvers
             return false;
         }
 
-        protected override void OnItemFound<T>(T item, Folder parent)
+        protected override void OnItemFound<T>(T item, Folder parent, LibraryOptions libraryOptions)
         {
-            base.OnItemFound(item, parent);
+            base.OnItemFound(item, parent, libraryOptions);
 
             var path = item.Path;
-            var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
+            var platform = GetGameSystemFromPath(_fileSystem, path);
 
             if (platform == null)
             {

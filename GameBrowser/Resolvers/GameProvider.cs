@@ -57,7 +57,7 @@ namespace GameBrowser.Resolvers
             {
                 if (!string.IsNullOrEmpty(path))
                 {
-                    var platform = ResolverHelper.GetGameSystemFromPath(_fileSystem, path);
+                    var platform = GameResolver.GetGameSystemFromPath(_fileSystem, path);
 
                     if (platform == null)
                     {
